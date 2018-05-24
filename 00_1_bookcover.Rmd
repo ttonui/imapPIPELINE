@@ -1,7 +1,7 @@
-# Cover {-}
+# {-}
 
-<!-- <img src="img/tmpcover.png" alt="imapbook" style="width:100%;"> -->
+<img src="img/front.png" alt="imapbook" style="width:120%;">
 <!-- <img src="img/cover.png" alt="imapbook" style="width:100%;"> -->
-<img src="img/cover2.png" alt="imapbook" style="width:100%;">
+<!-- <img src="img/cover2.png" alt="imapbook" style="width:100%;"> -->
 <!-- <img src="img/bbrp.png" alt="imapbook" style="width:100%;"> -->
 

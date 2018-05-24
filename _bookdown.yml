@@ -9,8 +9,9 @@ envir: parent.frame()
 clean_envir: !interactive()
 encoding: "UTF-8"
 output_dir: "imapBOOKS"
-# rmd_files:
-#   html: ["00_1_bookcover.Rmd","02_imaprepo.Rmd"]
-#   latex: ["00_1_bookcover.Rmd", "02_imaprepo.Rmd"]
+rmd_files:
+#  html: ["00_1_bookcover.Rmd","02_imaprepo.Rmd"]
+  latex: ["child/00_00_global_setup.Rmd","00_1_bookcover.Rmd", "02_imaprepo.Rmd"]  
+  html: ["child/00_00_global_setup.Rmd","00_1_bookcover.Rmd","00_2_preface.Rmd","00_3_dedication.Rmd","00_4_acknowledgement.Rmd","00_5_basics.Rmd","01_intro.Rmd","02_imaprepo.Rmd","03_metadata.Rmd","04_seqpreprocessing.Rmd","05_seqprocessing.Rmd","06_seqclassification.Rmd","07_otuanalysis.Rmd","08_datatransform.Rmd","09_visualization.Rmd","10_hypotheses.Rmd","11_manuscript1.Rmd","12_manuscript2.Rmd","13_manuscript3.Rmd","14_manuscript4.Rmd","99_appendix1.Rmd","999_references.Rmd"]
 
 
