@@ -1,0 +1,18 @@
+# Profiling Microbial Communities in Bushmeat Samples {-}
+<br>
+<center><h3>Teresia M. Buza^1^ and Triza Tonui^2^</h3>
+^1^Penn State University and ^2^BecA-ILRI Hub
+
+<h4>Updated: `r Sys.Date()`</h4>
+
+<hr>
+
+<h2>Bushmeat Biosecurity Research Project</h2>
+<!-- ![Photo courtesy of Peter Hudson](img/bbrp.png) -->
+</center>
+
+
+![Photo courtesy of Peter Hudson](img/bbrp.png)
+https://www.bushmeatbiosecurityresearch.org/
+<!-- ![Photo courtesy of Kay van der Horst](img/giraffe2.png) -->
+<!-- ![Photo courtesy of Kay van der Horst](img/giraffe3.png) -->

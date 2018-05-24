@@ -1,7 +1,12 @@
 # {-}
-
-<img src="img/front.png" alt="imapbook" style="width:120%;">
 <!-- <img src="img/cover.png" alt="imapbook" style="width:100%;"> -->
+
+```{r eval=FALSE}
+knitr::include_graphics(rep("img/giraffe3.png", 1, dpi = NA))
+```
+
+
+![Photo courtesy of Kay van der Horst](img/front1.png)
+
 <!-- <img src="img/cover2.png" alt="imapbook" style="width:100%;"> -->
 <!-- <img src="img/bbrp.png" alt="imapbook" style="width:100%;"> -->
-

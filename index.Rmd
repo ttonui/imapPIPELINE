@@ -1,27 +1,20 @@
 --- 
-title: "Bioinformatics Data Analysis"
-subtitle: "Bushmeat Microbiome"
-author:
-- affiliation: ^1^Penn State University and ^2^BecA-ILRI Hub
-  name: Teresia M. Buza^1^ and Triza Tonui^2^
-date: "Updated: `r Sys.Date()`"
+# title: "Bioinformatics Data Analysis"
+# subtitle: "Bushmeat Microbiome"
+# author:
+# - affiliation: ^1^Penn State University and ^2^BecA-ILRI Hub
+# - name: Teresia M. Buza^1^ and Triza Tonui^2^
+# date: "Updated: `r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
 bibliography: [library/book.bib, library/packages.bib, library/imapbook.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: tmbuza/imapCASESTUDY
+github-repo: tmbuza/imapPIPELINE
 fig_caption: true
 description: "This is a book addressing main points in microbiome data analysis using 16S rRNA gene markers. The output format is bookdown::gitbook."
 ---
-
-```{r}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'base','bookdown', 'knitr','rmarkdown','ggplot2','dplyr','shiny','vegan','funModeling'
-), 'library/packages.bib')
-```
 
 ```{r, child='child/00_00_global_setup.Rmd'}
 

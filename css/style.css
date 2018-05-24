@@ -19,3 +19,10 @@ font-style: normal;
 h1{
   text-align: center;
 }
+hr {
+  border: solid rgb(200, 200, 200);
+}
+img { 
+  width:100%; 
+  height:100%; 
+}
