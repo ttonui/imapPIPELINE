@@ -1,0 +1,9 @@
+# Sequence processing
+
+## Introduction
+Here we can review the column specifications of the assembly report
+
+## Assembly report
+```{r}
+
+```

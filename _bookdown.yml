@@ -1,0 +1,16 @@
+book_filename: "imapCASESTUDY"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+output_format: NULL
+clean: TRUE
+envir: parent.frame()
+clean_envir: !interactive()
+encoding: "UTF-8"
+output_dir: "imapBOOKS"
+# rmd_files:
+#   html: ["00_1_bookcover.Rmd","02_imaprepo.Rmd"]
+#   latex: ["00_1_bookcover.Rmd", "02_imaprepo.Rmd"]
+
+

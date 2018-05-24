@@ -1,0 +1,3 @@
+# Preface {-}
+
+This book presents a reproducible report generated using Rmarkdown. Chapters 1, 2, and 3 introduces the basics, pipeline used and the variables to be analyzed. Chapters 4 through 6 describe the preprocessing, processing and classfication of 16S rRNA gene sequences. Chapter 7 through 10 describes the analysis of the reslts and the last four chapters are the potential manuscripts. In summary you can easily reproduce this report using your own datases. 

@@ -1,0 +1,397 @@
+## Sequence Taxonomy
+
+*  Input file: *.nr.wang.pick.pick.tax.summary* file. 
+* All chimeras, non-bacterial lineages and mock sequences have been removed
+
+```{r seqtaxsummary, echo=TRUE, message=FALSE, warning=FALSE}
+taxsummary = read.table(file="../data/mothur/phylotype/qced.trim.contigs.good.unique.good.filter.unique.precluster.pick.nr.wang.pick.pick.tax.summary", stringsAsFactors=FALSE, header=T, sep='\t')
+
+# Save taxsummary object 
+write.table(taxsummary, "../results/tables/phylotype/seq_taxonomy/taxsummary.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE)
+```
+
+**Format of *.nr.wang.pick.pick.tax.summary* file**
+```{r, echo=TRUE}
+library(kableExtra)
+
+knitr::kable(head(taxsummary[,1:10], 10), "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+```
+
+
+### Taxon dataframes
+* Files with extension **.a** means **all data** incluidng classified and unclassified
+```{r, echo=TRUE}
+library(dplyr)
+
+phylum.a <- taxsummary %>% filter(grepl("2", taxlevel))
+phylum.a <- phylum.a[, -c(1,2,4,5)]
+
+class.a <- taxsummary %>% filter(grepl("3", taxlevel))
+class.a <- class.a[, -c(1,2,4,5)]
+
+order.a <- taxsummary %>% filter(grepl("4", taxlevel))
+order.a <- order.a[, -c(1,2,4,5)]
+
+family.a <- taxsummary %>% filter(grepl("5", taxlevel))
+family.a <- family.a[, -c(1,2,4,5)]
+
+genus.a <- taxsummary %>% filter(grepl("6", taxlevel))
+genus.a <- genus.a[, -c(1,2,4,5)]
+```
+
+**Format of *phylum.a* file**
+```{r}
+library(kableExtra)
+
+knitr::kable(head(phylum.a[,1:10], 10), "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+```
+
+
+### Dimension of unfiltered taxa objects
+```{r dimension, echo=TRUE}
+dim(phylum.a)
+dim(class.a)
+dim(order.a)
+dim(family.a)
+dim(genus.a)
+```
+
+### Save each taxon dataframe to a file
+```{r, echo=TRUE}
+write.table(phylum.a,"../results/tables/phylotype/seq_taxonomy/phylum.a.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(class.a,"../results/tables/phylotype/seq_taxonomy/class.a.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(order.a,"../results/tables/phylotype/seq_taxonomy/order.a.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(family.a,"../results/tables/phylotype/seq_taxonomy/family.a.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(genus.a,"../results/tables/phylotype/seq_taxonomy/genus.a.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+```
+
+<br>
+
+### Remove unclassified taxa
+```{r, echo=TRUE}
+library(dplyr)
+phylum <- phylum.a %>% filter(!grepl("*unclassified", taxon))
+class <- class.a %>% filter(!grepl("*unclassified", taxon))
+order <- order.a %>% filter(!grepl("*unclassified", taxon))
+family <- family.a %>% filter(!grepl("*unclassified", taxon))
+genus <- genus.a %>% filter(!grepl("*unclassified", taxon))
+
+dim(phylum)
+dim(class)
+dim(order)
+dim(family)
+dim(genus)
+```
+
+### Sort taxon in ascending order
+```{r, echo=TRUE}
+phylum<- phylum[order(phylum$taxon),]
+class<- class[order(class$taxon),]
+order<- order[order(order$taxon),]
+family<- family[order(family$taxon),]
+genus<- genus[order(genus$taxon),]
+```
+
+*Sorted Phylum*
+```{r}
+library(kableExtra)
+
+knitr::kable(head(phylum[,1:10], 10), "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+```
+
+
+### Save sorted taxa objects to files
+```{r, echo=TRUE}
+write.table(phylum,"../results/tables/phylotype/seq_taxonomy/phylum.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(class,"../results/tables/phylotype/seq_taxonomy/class.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(order,"../results/tables/phylotype/seq_taxonomy/order.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(family,"../results/tables/phylotype/seq_taxonomy/family.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(genus,"../results/tables/phylotype/seq_taxonomy/genus.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+```
+
+### Transpose: Column to row
+* Note that all samples are organized by column and the taxon by row.
+* Most functions need samples organized by row so we will transpose the table
+* Optionally to transpose correclty we will strip off the sample identifiers and convert them to row names so that the data matrix contains only numeric count data. This can vary greatly:)
+* We will do this using *setNames* function and indicate [,-1] which means exclude column 1 currently containing the taxon.
+
+```{r, echo=TRUE}
+phylum<-read.table(file="../results/tables/phylotype/seq_taxonomy/phylum.tsv", header = TRUE, sep="\t")
+phylum.t = setNames(data.frame(t(phylum[,-1])), phylum[,1])
+class<-read.table(file="../results/tables/phylotype/seq_taxonomy/class.tsv", header = TRUE, sep="\t")
+class.t = setNames(data.frame(t(class[,-1])), class[,1])
+order<-read.table(file="../results/tables/phylotype/seq_taxonomy/order.tsv", header = TRUE, sep="\t")
+order.t = setNames(data.frame(t(order[,-1])), order[,1])
+family<-read.table(file="../results/tables/phylotype/seq_taxonomy/family.tsv", header = TRUE, sep="\t")
+family.t = setNames(data.frame(t(family[,-1])), family[,1])
+genus<-read.table(file="../results/tables/phylotype/seq_taxonomy/genus.tsv", header = TRUE, sep="\t")
+genus.t = setNames(data.frame(t(genus[,-1])), genus[,1])
+```
+
+<br>
+
+```{r, echo=TRUE, comment=NA}
+dim(phylum.t)
+dim(class.t)
+dim(order.t)
+dim(family.t)
+dim(genus.t)
+```
+
+**Format of transposed data**
+```{r}
+library(kableExtra)
+
+knitr::kable(head(phylum.t[,1:10], 10), "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+```
+
+<br>
+
+### Save transposed data
+```{r, echo=TRUE}
+write.table(phylum.t,"../results/tables/phylotype/seq_taxonomy/phylum.t.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(class.t,"../results/tables/phylotype/seq_taxonomy/class.t.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(order.t,"../results/tables/phylotype/seq_taxonomy/order.t.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(family.t,"../results/tables/phylotype/seq_taxonomy/family.t.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(genus.t,"../results/tables/phylotype/seq_taxonomy/genus.t.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+```
+
+<br>
+
+### Get relative abundance proportions
+```{r, echo=TRUE}
+phylumprop <- phylum.t/rowSums(phylum.t)
+classprop <- class.t/rowSums(class.t)
+orderprop <- order.t/rowSums(order.t)
+familyprop <- family.t/rowSums(family.t)
+genusprop <- genus.t/rowSums(genus.t)
+```
+
+<br>
+
+```{r, echo=TRUE, comment=NA}
+dim(phylumprop)
+dim(classprop)
+dim(orderprop)
+dim(familyprop)
+dim(genusprop)
+```
+
+**Format of relative phylum**
+```{r, echo=TRUE}
+library(kableExtra)
+
+knitr::kable(head(phylumprop[,1:10], 10), "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+```
+<br>
+
+### Save relative abundance objects
+```{r, echo=TRUE}
+write.table(phylumprop,"../results/tables/phylotype/seq_taxonomy/phylumprop.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(classprop,"../results/tables/phylotype/seq_taxonomy/classprop.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(orderprop,"../results/tables/phylotype/seq_taxonomy/orderprop.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(familyprop,"../results/tables/phylotype/seq_taxonomy/familyprop.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+write.table(genusprop,"../results/tables/phylotype/seq_taxonomy/genusprop.tsv", append = FALSE, quote = FALSE, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"))
+```
+
+<br>
+
+### Create taxon objects containing variables
+
+```{r, echo=TRUE}
+phylum.t.v <- phylum.t
+phylum.t.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+phylum.t.v$Condition <- as.character(bushmeatvars$Condition)
+phylum.t.v$Species <- as.character(bushmeatvars$Species)
+phylum.t.v$Season <- as.character(bushmeatvars$Season)
+phylum.t.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+phylumprop.v <- phylumprop
+phylumprop.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+phylumprop.v$Condition <- as.character(bushmeatvars$Condition)
+phylumprop.v$Species <- as.character(bushmeatvars$Species)
+phylumprop.v$Season <- as.character(bushmeatvars$Season)
+phylumprop.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+class.t.v <- class.t
+class.t.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+class.t.v$Condition <- as.character(bushmeatvars$Condition)
+class.t.v$Species <- as.character(bushmeatvars$Species)
+class.t.v$Season <- as.character(bushmeatvars$Season)
+class.t.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+classprop.v <- classprop
+classprop.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+classprop.v$Condition <- as.character(bushmeatvars$Condition)
+classprop.v$Species <- as.character(bushmeatvars$Species)
+classprop.v$Season <- as.character(bushmeatvars$Season)
+classprop.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+order.t.v <- order.t
+order.t.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+order.t.v$Condition <- as.character(bushmeatvars$Condition)
+order.t.v$Species <- as.character(bushmeatvars$Species)
+order.t.v$Season <- as.character(bushmeatvars$Season)
+order.t.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+orderprop.v <- orderprop
+orderprop.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+orderprop.v$Condition <- as.character(bushmeatvars$Condition)
+orderprop.v$Species <- as.character(bushmeatvars$Species)
+orderprop.v$Season <- as.character(bushmeatvars$Season)
+orderprop.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+family.t.v <- family.t
+family.t.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+family.t.v$Condition <- as.character(bushmeatvars$Condition)
+family.t.v$Species <- as.character(bushmeatvars$Species)
+family.t.v$Season <- as.character(bushmeatvars$Season)
+family.t.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+familyprop.v <- familyprop
+familyprop.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+familyprop.v$Condition <- as.character(bushmeatvars$Condition)
+familyprop.v$Species <- as.character(bushmeatvars$Species)
+familyprop.v$Season <- as.character(bushmeatvars$Season)
+familyprop.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+genus.t.v <- genus.t
+genus.t.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+genus.t.v$Condition <- as.character(bushmeatvars$Condition)
+genus.t.v$Species <- as.character(bushmeatvars$Species)
+genus.t.v$Season <- as.character(bushmeatvars$Season)
+genus.t.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+genusprop.v <- genusprop
+genusprop.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+genusprop.v$Condition <- as.character(bushmeatvars$Condition)
+genusprop.v$Species <- as.character(bushmeatvars$Species)
+genusprop.v$Season <- as.character(bushmeatvars$Season)
+genusprop.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+```
+
+### Save taxa objects containing variables
+* Adding metadata (variables) to the objects makes facilitates simplifies beta diversity analysis.
+```{r, echo=TRUE}
+write.table(phylum.t.v,"../results/tables/phylotype/seq_taxonomy/phylum.t.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(class.t.v,"../results/tables/phylotype/seq_taxonomy/class.t.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(order.t.v,"../results/tables/phylotype/seq_taxonomy/order.t.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(family.t.v,"../results/tables/phylotype/seq_taxonomy/family.t.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(genus.t.v,"../results/tables/phylotype/seq_taxonomy/genus.t.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+
+
+write.table(phylumprop.v,"../results/tables/phylotype/seq_taxonomy/phylumprop.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(classprop.v,"../results/tables/phylotype/seq_taxonomy/classprop.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(orderprop.v,"../results/tables/phylotype/seq_taxonomy/orderprop.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(familyprop.v,"../results/tables/phylotype/seq_taxonomy/familyprop.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+
+write.table(genusprop.v,"../results/tables/phylotype/seq_taxonomy/genusprop.v.tsv", quote = FALSE, sep="\t",
+            row.names = FALSE, col.names = TRUE)
+```
+
+### Review dimensions of all taxa data
+
+*Phylum*
+```{r, echo=TRUE, comment=NA}
+dim(phylum.a)
+dim(phylum)
+dim(phylum.t)
+dim(phylumprop)
+dim(phylum.t.v)
+```
+
+*Class*
+```{r, echo=TRUE, comment=NA}
+dim(class.a)
+dim(class)
+dim(class.t)
+dim(classprop)
+dim(class.t.v)
+```
+
+*Order*
+```{r, echo=TRUE, comment=NA}
+dim(order.a)
+dim(order)
+dim(order.t)
+dim(orderprop)
+dim(order.t.v)
+```
+
+*Family*
+```{r, echo=TRUE, comment=NA}
+dim(family.a)
+dim(family)
+dim(family.t)
+dim(familyprop)
+dim(family.t.v)
+```
+
+*Genus*
+```{r, echo=TRUE, comment=NA}
+dim(genus.a)
+dim(genus)
+dim(genus.t)
+dim(genusprop)
+dim(genus.t.v)
+```
+
+<br>
+
+```{r, eval=FALSE, include=FALSE}
+sink("./sessionInfo.txt")
+message("\nSummary of session information\n\n")
+sessionInfo()
+sink()
+
+sink("./LatexsessionInfo.txt")
+message("\nSummary of Latex session information\n\n")
+toLatex(sessionInfo())
+sink()
+```
+

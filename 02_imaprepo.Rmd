@@ -1,0 +1,95 @@
+# iMAP pipeline
+
+## Development version
+<h4>GitHub repository: https://github.com/tmbuza/iMAP</h4>
+
+## Structure of iMAP repository
+
+```{}
+	iMAP
+	|- README.md      # Top level description of iMAP
+	|- LICENSE.md     # License for the iMAP project
+	|
+	|- data/          # Data for the iMAP project. Must remain unaltered once created.
+	| |- references/  # Reference files to be used in the analysis
+	| |- raw/         # Raw data, should remain unaltered
+	| |- mothur/      # Data processed using *mothur* commands
+	| +- demo/        # Data committed to repo for demo purposes
+	| +- README.md    # Description of content in data folder
+	|
+	|- code/          # Programmatic code and all software required for the iMAP project
+	| +- *.bash	      # Bash scripts
+	| +- *.batch	  # mothur scripts run at command line
+	| |- Rmd/         # Folder containing executable Rmarkdown scripts
+	| +- README.md    # Description of content in code folder
+	|
+	|- results/       # All output from the analyses
+	| |- tables/      # Transformed data in R, ...
+	| |- figures/     # Publication-quality figures
+	| +- README.md	  # Description of content in results folder
+	|
+	|- pictures/      # images, non-graphics...
+	| +- README.md    # Description of content in pictures folder
+	|
+	|- reports/       # All reports generated for the iMAP project
+	| |- *.docx       # Word documents
+	| |- *.pdf        # PDF documents
+	| |- *.html	      # HTML documents
+	| +- README.md    # Description of content in reports folder
+	|
+	|- docs		      # iMAP project documents....
+	| |- *.docx       # Word documents
+	| |- *.pdf        # PDF documents
+	| |- *.html	      # HTML documents
+	| +- README.md    # Description of content in reports folder
+	|
+	|- prelim/        # Exploratory data analysis
+	| |- notebook/    # Preliminary analyses
+	| +- README.md    # Description of content in exploratory folder
+	|
+	|- scratch/	      # Temporary files
+	| +- README.md    # Description of content in scratch folder
+	|
+	|- submission/	  # Publications, presentations...
+	| +- *.docx    	  # Word document
+	| +- *.pdf        # PDF document
+	| +- *.pptx       # Powerpoint slides, includes posters, slides....
+	| +- README.md    # Description of content in submission folder
+	|
+	|+ Makefile/      # Executable Makefile for the iMAP project (in progress)
+```
+
+<hr>
+
+## How to regenerate this repository
+```{}
+git clone https://github.com/tmbuza/iMAP.git
+cd iMAP
+
+# OR
+
+curl -LOk https://github.com/tmbuza/iMAP/archive/master.zip
+unzip master.zip
+mv iMAP-master iMAP
+rm -rf master.zip
+cd iMAP
+
+
+# OR
+
+wget --no-check-certificate https://github.com/tmbuza/iMAP/archive/master.zip 
+unzip master.zip
+mv iMAP-master iMAP
+rm -rf master.zip
+cd iMAP
+```
+
+## Training dataset
+* For demonstration purposes the iMAP test package includes 9 samples (8 from murine gut and 1 Mock community), a subset extracted from [StabilityNoMetaG.tar](https://www.mothur.org/MiSeqDevelopmentData).
+* You can replace the rawdata and metadata by placing your data in the corresponding folders.
+
+## Usage of driver script
+```{}
+bash ./code/iMAP_driver.bash
+```
+

@@ -1,0 +1,115 @@
+# Sequence pre-processing
+
+## Get started
+```{}
+mkdir data/raw 
+```
+
+## Rawdata
+* Obtain the raw data and put the files into the data/raw directory
+* Training set: 8 murine gut samples + 1 Mock sample, a subset extracted from [StabilityNoMetaG.tar](https://www.mothur.org/MiSeqDevelopmentData).  
+
+```{}
+cp ./data/process/raw.zip ./
+unzip raw.zip
+cp raw/* ./data/raw
+rm -rf raw* __MACOSX
+```
+
+## Software
+* Download *seqkit* and put it into the *code* directory
+```{}
+wget --no-check-certificate https://github.com/shenwei356/seqkit/releases/download/v0.8.0/seqkit_linux_amd64.tar.gz
+tar -zxvf seqkit_linux_amd64.tar.gz
+cp seqkit ~/bin/
+mv seqkit code/
+rm seqkit_linux_amd64.tar.gz
+```
+
+* Download *fastqc* and put it into the *code* directory
+```{}
+# Linux version
+wget --no-check-certificate https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.7.zip
+unzip fastqc_v0.11.7.zip
+chmod 755 FastQC/fastqc
+mv -v FastQC code/
+rm fastqc_v0.11.7.zip
+```
+
+* Install *multiQC*
+* This is installed via python environment (latest version 3+)
+* Check what version of python is installed on your computer by typing 'python --version'
+* For more details see the installation manual http://multiqc.info/docs/#manual-installation
+```{}
+curl -LOk https://github.com/ewels/MultiQC/archive/master.zip
+unzip master.zip
+cd MultiQC-master
+python setup.py install
+cd ..
+rm -rf MultiQC-master
+rm -rf master.zip
+```
+
+* Install *bbmap* and put it into the code directory
+* Refer: https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/installation-guide/
+```{}
+wget --no-check-certificate https://sourceforge.net/projects/bbmap/files/BBMap_37.90.tar.gz
+tar -xvzf BBMap_37.90.tar.gz
+mv -v bbmap code/
+rm BBMap_37.90.tar.gz
+```
+
+## Get read statistics
+```{}
+mkdir results/stats
+./code/seqkit stat ./data/raw/*.fastq.gz -o ./results/stats/qcstats.txt
+```
+
+## Get basecall scores
+* Required folders
+```{}
+mkdir results/fastqc
+mkdir results/fastqc/qc0
+mkdir results/fastqc/qctrim25
+mkdir results/fastqc/qced
+```
+
+* Unfilterred quality (q0)
+```{}
+./code/FastQC/fastqc ./data/raw/*fastq.gz -o ./results/fastqc/qc0
+```
+
+* Trim at Phred score = 25 (qtrim25)
+```{}
+cd data/raw
+for i in `ls -1 *R1_001.fastq.gz | sed 's/R1_001.fastq.gz//'`
+do
+ ../../code/bbmap/bbduk.sh -Xmx4g in1=$i\R1_001.fastq.gz in2=$i\R2_001.fastq.gz out1=../../data/raw/qctrim25/$i\trim25_R1_001.fastq.gz out2=../../data/raw/qctrim25/$i\trim25_R2_001.fastq.gz qtrim=r trimq=25 overwrite=True
+done
+cd ../../
+
+./code/FastQC/fastqc ./data/raw/qctrim25/*trim25*fastq.gz -o ./results/fastqc/qctrim25
+```
+
+* Remove phiX contamination (qced)
+```{}
+cd ./data/raw/qctrim25
+for i in `ls -1 *R1_001.fastq.gz | sed 's/R1_001.fastq.gz//'`
+do
+../../../code/bbmap/bbduk.sh -Xmx4g in1=$i\R1_001.fastq.gz in2=$i\R2_001.fastq.gz out1=../qced/$i\R1_001.nophix.fastq.gz out2=../qced/$i\R2_001.nophix.fastq.gz outm1=../qced/matchedphix/$i\R1_001.matchedphix.fastq.gz outm2=../qced/matchedphix/$i\R2_001.matchedphix.fastq.gz ref=../../../code/bbmap/resources/phix174_ill.ref.fa.gz k=31 hdist=1 overwrite=True
+done
+cd ../../../
+./code/FastQC/fastqc ./data/raw/qced/*nophix.fastq.gz -o ./results/fastqc/qced/
+```
+
+## Summarize *fastqc* results
+```{}
+mkdir results/multiqc
+mkdir results/multiqc/qc0
+mkdir results/multiqc/qctrim25
+mkdir results/multiqc/qced
+multiqc  ./results/fastqc/qc0 -o ./results/multiqc/qc0
+multiqc  ./results/fastqc/qctrim25 -o ./results/multiqc/qctrim25
+multiqc ./results/fastqc/qced  -o ./results/multiqc/qced
+```
+

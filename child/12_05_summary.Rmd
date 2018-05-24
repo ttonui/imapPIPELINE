@@ -1,0 +1,13 @@
+<!-- ### Summary {-} -->
+
+Up to this stage it should be clear whether the data is good to go to the next step or not. A non-technical report can be generated and shared with investigators and collaborators to help with decision making. 
+
+Here are few potential questions to be addressed:
+
+```
+Are there any samples to be eliminated from the analysis?
+Are there any unexpected missing data in some variables?
+```
+
+
+

@@ -1,0 +1,637 @@
+## Sequence classification
+**Analysis of taxonomy results**
+```{r echo=TRUE}
+rownames(phylum.t) <- bushmeatvars$SampleCode
+rownames(phylum.t.v) <- bushmeatvars$SampleCode
+rownames(phylumprop) <- bushmeatvars$SampleCode
+rownames(phylumprop.v) <- bushmeatvars$SampleCode
+# rownames(phylum.t)
+# rownames(phylum.t.v)
+# rownames(phylumprop)
+# rownames(phylumprop.v)
+
+rownames(class.t) <- bushmeatvars$SampleCode
+rownames(class.t.v) <- bushmeatvars$SampleCode
+rownames(classprop) <- bushmeatvars$SampleCode
+rownames(classprop.v) <- bushmeatvars$SampleCode
+# rownames(class.t)
+# rownames(class.t.v)
+# rownames(classprop)
+# rownames(classprop.v)
+
+rownames(order.t) <- bushmeatvars$SampleCode
+rownames(order.t.v) <- bushmeatvars$SampleCode
+rownames(orderprop) <- bushmeatvars$SampleCode
+rownames(orderprop.v) <- bushmeatvars$SampleCode
+# rownames(order.t)
+# rownames(order.t.v)
+# rownames(orderprop)
+# rownames(orderprop.v)
+
+rownames(family.t) <- bushmeatvars$SampleCode
+rownames(family.t.v) <- bushmeatvars$SampleCode
+rownames(familyprop) <- bushmeatvars$SampleCode
+rownames(familyprop.v) <- bushmeatvars$SampleCode
+# rownames(family.t)
+# rownames(family.t.v)
+# rownames(familyprop)
+# rownames(familyprop.v)
+
+rownames(genus.t) <- bushmeatvars$SampleCode
+rownames(genus.t.v) <- bushmeatvars$SampleCode
+rownames(genusprop) <- bushmeatvars$SampleCode
+rownames(genusprop.v) <- bushmeatvars$SampleCode
+# rownames(genus.t)
+# rownames(genus.t.v)
+# rownames(genusprop)
+# rownames(genusprop.v)
+```
+
+## Alpha diversity analysis
+**Research question**
+* <mark>Are there any new Species added as a function of sampling?</mark>
+    * Species accumulation curves
+    * Rarefaction curves
+    * Rarefaction and extrapolation curves.
+
+
+```{r eval=FALSE, include=FALSE}
+dim(phylum.t)
+dim(class.t)
+dim(family.t)
+dim(genus.t)
+
+cat("\nAdded Variables\n")
+# Add vars
+dim(phylum.t.v)
+dim(class.t.v)
+dim(family.t.v)
+dim(genus.t.v)
+```
+
+### Species accumulation curves
+```{r speciesacum, fig.height=6, fig.width=8, fig.cap=Species accumulation curves using four methods; exact (magenta), random (green), collector (blue), rarefaction (red). The standard deviation is indicated by the vertical lines.}
+library(vegan)
+
+p_spa <- specaccum(phylum.t, method="exact")
+c_spa <- specaccum(class.t, method="exact")
+f_spa <- specaccum(family.t, method="exact")
+g_spa <- specaccum(genus.t, method="exact")
+
+p_spr <- specaccum(phylum.t, method="random")
+c_spr <- specaccum(class.t, method="random")
+f_spr <- specaccum(family.t, method="random")
+g_spr <- specaccum(genus.t, method="random")
+
+p_spc <- specaccum(phylum.t, method="collector")
+c_spc <- specaccum(class.t, method="collector")
+f_spc <- specaccum(family.t, method="collector")
+g_spc <- specaccum(genus.t, method="collector")
+
+p_sprf <- specaccum(phylum.t, method="rarefaction")
+c_sprf <- specaccum(class.t, method="rarefaction")
+f_sprf <- specaccum(family.t, method="rarefaction")
+g_sprf <- specaccum(genus.t, method="rarefaction")
+
+par(mfrow=c(2,2))
+plot(p_spa, xlab="Number of samples", ylab="Species richness", col=6, lwd=2)
+plot(p_spr, add=TRUE, col=3, lwd=2)
+plot(p_spc, add=TRUE, col=4, lwd=2) 
+plot(p_sprf, add=TRUE, col=2, lwd=2) 
+mtext("Phylum-level", cex=.8, adj = 0)
+plot(c_spa, xlab="Number of samples", ylab="Species richness", col=6, lwd=2)
+plot(c_spr, add=TRUE, col=3, lwd=2)
+plot(c_spc, add=TRUE, col=4, lwd=2)
+plot(c_sprf, add=TRUE, col=2, lwd=2)
+mtext("Class-level", cex=.8, adj = 0)
+plot(f_spa, xlab="Number of samples", ylab="Species richness", col=6, lwd=2)
+plot(f_spr, add=TRUE, col=3, lwd=2)
+plot(f_spc, add=TRUE, col=4, lwd=2)
+plot(f_sprf, add=TRUE, col=2, lwd=2)
+mtext("Family-level", cex=.8, adj = 0)
+plot(g_spa, xlab="Number of samples", ylab="Species richness", col=6, lwd=2)
+plot(g_spr, add=TRUE, col=3, lwd=2)
+plot(g_spc, add=TRUE, col=4, lwd=2)
+plot(g_sprf, add=TRUE, col=2, lwd=2)
+mtext("Genus-level", cex=.8, adj = 0)
+```
+<!-- Figure ?. Species accumulation curves using four methods; exact (magenta), random (green), collector (blue), rarefaction (red). The standard deviation is indicated by the vertical lines. -->
+
+>Keep sampling if the values obtained are too sensitive to sampling. 
+
+<br><hr>
+
+## Rarefaction curves
+
+## Rarefaction and extrapolation curves
+
+```{r batch345, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, comment=NA, include=TRUE}
+library(iNEXT)
+phylum_inext <- as.matrix.data.frame(phylum[,-1])
+kp <- iNEXT(phylum_inext, q=0, datatype="abundance",se=TRUE)
+
+# Change shapes, line types and colors
+df <- fortify(kp, type=1)
+# head(df)
+
+df.point <- df[which(df$method=="observed"),]
+df.line <- df[which(df$method!="observed"),]
+df.line$method <- factor(df.line$method,
+                         c("interpolated", "extrapolated"),
+                         c("observed", "extrapolated"))
+
+p.inext<- ggplot(df, aes(x=x, y=y, color=site)) +
+  geom_point(aes(shape=site), size=3, data=df.point) +
+  geom_line(aes(linetype=method), lwd=1.5, data=df.line) +
+  geom_ribbon(aes(ymin=y.lwr, ymax=y.upr,
+                  fill=site, color=NULL), alpha=0.1) +
+  labs(x="Number of sequences", y="Phyla richness") +
+  theme(legend.position = "bottom", legend.title=element_blank(),
+        text=element_text(size=10)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0)) +
+  scale_x_continuous(labels = comma, breaks=pretty_breaks(n=10))+
+  scale_y_continuous(labels = comma, breaks=pretty_breaks(n=5)) +
+  cleanup + nolegend
+p.inext
+```
+
+Figure ?. Rarefaction (solid lines) and extrapolation (dotted lines) sampling curves at phylum-level. The shaded region represents the diversity bootstrap standard error (SE).
+
+>Rarefaction curves of communities with the same richness, but different evenness asymptote to the same value after sampling a large number of individuals. Different shapes of curves indicates different evennesses. Subsampling generates rarefaction curves for comparing sample diversity rather than their richness.
+
+
+<br><hr>
+
+## General distribution of identified species
+* Using barplot
+
+<br><hr>
+
+## Barplots (file:phylum.tsv: Abundance = sequence count)
+
+```{r barplot_sample, fig.height=8, fig.width=12, message=FALSE, warning=FALSE, include=TRUE}
+library(ggplot2)
+library(reshape2)
+library(scales)
+
+
+category1 <- melt(phylum,variable.name = "SampleCode", na.rm = FALSE, value.name = "value")
+sp_stacked1 <- ggplot(category1,aes(SampleCode,value,fill=taxon))+
+     geom_bar(stat="identity", width=.8, position="stack") +
+  xlab("Data point") + ylab("Number of sequences") + scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))+  mediumaxislayout+ ggtitle("")
+# sp_stacked1
+
+
+category1 <- melt(phylum, variable.name = "SampleCode", na.rm = FALSE, value.name = "value")
+sp_filled1 <- ggplot(category1,aes(SampleCode,value,fill=taxon))+
+     geom_bar(stat="identity", width=.8, position="fill") +
+  xlab("Data point") + ylab("Relative abundance") +
+  scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))  + mediumaxislayout+ ggtitle("")
+# sp_filled1
+
+# bottomsharedlegend(sp_stacked1, nrow = 1, ncol=1)
+# bottomsharedlegend(sp_filled1, nrow = 1, ncol=1)
+bottomsharedlegend(sp_stacked1, sp_filled1, nrow = 2, ncol=1)
+```
+Figure ??. Taxonomic assignments of bushmeat samples at phylum level. The abundance is based on sequence counts (top) and relative abundance of total sequences in each sample (bottom).
+<br><hr>
+
+## Barplots (file: phylum.t.tsv: Abundance = sequence count )
+
+```{r barplot_species, fig.height=6, fig.width=8, message=FALSE, warning=FALSE, include=TRUE}
+library(ggplot2)
+library(reshape2)
+library(scales)
+
+phylum.t.v$SampleCode <- as.character(phylum.t.v$SampleCode)
+# df_status(phylum.t.v)
+
+sp_stacked2 <- ggplot(melt(phylum.t.v),aes(Species,value,fill=variable))+
+     geom_bar(stat="identity", width=.8, position="stack") +
+  xlab("") + ylab("Number of sequences") +
+  scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))  + mediumaxislayout+ ggtitle("")
+
+sp_filled2 <- ggplot(melt(phylum.t.v),aes(Species,value,fill=variable))+
+     geom_bar(stat="identity", width=.8, position="fill")+
+  xlab("") + ylab("Relative abundance") + scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))+  mediumaxislayout + ggtitle("")
+
+rightsharedlegend(sp_stacked2, sp_filled2, nrow = 2, ncol=1)
+```
+
+Figure ??. Species abundance at phylum level based on sequence counts (top) and relative abundance of total sequences in each sample (bottom).
+
+<br><hr>
+
+## Dispersion
+
+## Boxplots horizontal datapoint labelling
+
+```{r boxplot_species, fig.height=6, fig.width=8, message=FALSE, warning=FALSE, include=TRUE}
+library(ggplot2)
+
+sp_boxplot<-melt(phylum.t.v)
+sp_box <- ggplot(sp_boxplot, aes(x=Species, y=log2(value))) + geom_boxplot()+ labs(x = "", y = "Sequence count (log2 scale)") + scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))  + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 10)) + ggtitle("phylum")
+sp_box
+
+sc_boxplot<-melt(class.t.v)
+sc_box <- ggplot(sc_boxplot, aes(x=Species, y=log2(value))) + geom_boxplot()+ labs(x = "", y = "Sequence count (log2 scale)") + scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10)) + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 10)) + ggtitle("class")
+sc_box
+
+sf_boxplot<-melt(family.t.v)
+sf_box <- ggplot(sf_boxplot, aes(x=Species, y=log2(value))) + geom_boxplot()+labs(x = "", y = "Sequence count (log2 scale)") + scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))  + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 10)) + ggtitle("family")
+sf_box
+
+sg_boxplot<-melt(genus.t.v)
+sg_box <- ggplot(sg_boxplot, aes(x=Species, y=log2(value))) + geom_boxplot()+ labs(x = "", y = "Sequence count (log2 scale)") + scale_y_continuous(labels = comma, breaks=pretty_breaks(n=10))  + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 10)) + ggtitle("genus")
+sg_box
+```
+
+Figure ?. Dispersion of taxa abundance at (A) phylum, (B) class, (C) family and (D) genus levels.
+
+
+## Correlation tests
+* Focussing on taxa of interest to bushmeat project
+
+```{r taxon_compare}
+
+# point only
+p1 <- ggplot(phylum.t.v, aes(x=Firmicutes, y=Proteobacteria, color=Season)) + geom_point(size=2) + axislayout + xbreaks10 + ybreaks10+ mediumaxislayout2
+
+p2 <- ggplot(phylum.t.v, aes(x=Firmicutes, y=Bacteroidetes, color=Season)) + geom_point(size=2) + axislayout + xbreaks10 + ybreaks10+ mediumaxislayout2
+
+bottomsharedlegend(p1, p2, nrow = 1, ncol = 2)
+```
+
+## Example of variable correlation test
+* Compare two specified bushmeatvars
+```{r, eval=FALSE, include=FALSE}
+cor.test(phylum.t.v$Firmicutes, phylum.t.v$Proteobacteria)
+cor.test(phylum.t.v$Firmicutes, phylum.t.v$Bacteroidetes)
+```
+Interpretation: Firmicutes and Proteobacteria, the most abundant phyla are not correlated (r = -0.07643594)
+
+
+## Beta diversity analysis
+* prcomp in vegan
+* PCA in FactoMiner
+* fviz in factoextra
+
+
+<br><hr>
+
+# Clustering
+* Library: cluster
+* When using clustering algorithms, number of clusters mostly denoted as *k* must be specified.
+* You can use NbClust Package in determining the best number of clusters.
+* *NbClust* package provides about 30 indices for determining the number of clusters.
+* Does this by varying all combinations of number of clusters, distance measures, and clustering methods.
+* Then it proposes the best clustering scheme from the different results obtained.
+
+
+## Visualization
+An important step of meaningful clustering consists of transforming the bushmeatvars such that they have mean zero and standard deviation one.
+
+```{r scale_taxon, include=FALSE}
+p.scaled <- scale(phylumprop)
+c.scaled <- scale(classprop)
+f.scaled <- scale(familyprop)
+g.scaled <- scale(genusprop)
+```
+
+## Subsetting
+```{r}
+p_ws <- phylum.t.v %>% filter(grepl("WestSerengeti", Ecosystem))
+# df_status(p_ws)
+
+p_ws_scaled <- scale(p_ws[, -c(36,37,38,39,40)])
+# dim(p_ws_scaled)
+rownames(p_ws_scaled) <- p_ws$SampleCode
+```
+
+## Clustering
+### Phylum dendrogram
+```{r cluster1, fig.height=8, fig.width=6}
+# Run clustering
+library(ggdendro)
+p_matrix <- as.matrix(p_ws_scaled)
+rownames(p_matrix) <- p_ws$SampleCode
+p_dendro <- as.dendrogram(hclust(d = dist(x = p_matrix)))
+
+# Create dendro plot
+p_dendro_plot <- ggdendrogram(data = p_dendro, rotate = TRUE)
+p_dendro_plot <- p_dendro_plot + theme(axis.text.y = element_text(size = 6))
+# Preview the plot
+print(p_dendro_plot)
+```
+
+
+
+<!-- <br> -->
+<!-- ## Heatmap -->
+<!-- ### Phylum heatmap -->
+<!-- ```{r p_heatmap, fig.height=8, fig.width=6} -->
+
+<!-- library(reshape2) # for melt -->
+<!-- # Data wrangling -->
+<!-- category <- melt(t(p_ws_scaled)) -->
+<!-- # colnames(category) = c("Group", "Taxon", "Value") -->
+<!-- # Heatmap -->
+<!-- p_heatmap_plot <- ggplot(category, aes(x=Var1, y=Var2, fill=value)) +  -->
+<!--   geom_tile(mapping = NULL, data = NULL, stat = "identity", -->
+<!--   position = "identity", na.rm = TRUE,inherit.aes = TRUE)+ -->
+<!--   scale_fill_gradient2(low = "lightblue",  high = "blue", na.value = "white", name  =" ") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6), -->
+<!--         legend.position = "top") + -->
+<!--   labs(x=NULL, y=NULL) + theme(axis.text.y = element_text(face = "italic", size = 6)) -->
+
+<!-- # Preview the heatmap -->
+<!-- print(p_heatmap_plot) -->
+<!-- ``` -->
+
+
+<!-- <br> -->
+
+
+
+<!-- ### Class heatmap -->
+<!-- ```{r c_heatmap, fig.height=8, fig.width=6} -->
+<!-- c_ws <- class.t.v %>% filter(grepl("WestSerengeti", Ecosystem)) -->
+<!-- # df_status(c_ws) -->
+
+<!-- c_ws_scaled <- scale(c_ws[, -c(89,90,91,92,93)]) -->
+<!-- # dim(p_ws_scaled) -->
+<!-- rownames(c_ws_scaled) <- c_ws$SampleCode -->
+
+<!-- library(reshape2) # for melt -->
+<!-- # Data wrangling -->
+<!-- category <- melt(t(c_ws_scaled)) -->
+<!-- # colnames(category) = c("Group", "Taxon", "Value") -->
+<!-- # Heatmap -->
+<!-- c_heatmap_plot <- ggplot(category, aes(x=Var1, y=Var2, fill=value)) +  -->
+<!--   geom_tile(mapping = NULL, data = NULL, stat = "identity", -->
+<!--   position = "identity", na.rm = TRUE,inherit.aes = TRUE)+ -->
+<!--   scale_fill_gradient2(low = "lightblue",  high = "blue", na.value = "white", name  =" ") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6), -->
+<!--         legend.position = "top") + -->
+<!--   labs(x=NULL, y=NULL) + theme(axis.text.y = element_text(face = "italic", size = 6)) -->
+
+<!-- # Preview the heatmap -->
+<!-- print(c_heatmap_plot) -->
+<!-- ``` -->
+
+<!-- <br> -->
+
+
+
+<!-- <br> -->
+
+<!-- ### Family heatmap -->
+<!-- ```{r f_heatmap, fig.height=8, fig.width=6} -->
+<!-- f_ws <- family.t.v %>% filter(grepl("WestSerengeti", Ecosystem)) -->
+<!-- # dim(f_ws) -->
+<!-- # df_status(f_ws[378:ncol(f_ws)]) -->
+
+<!-- f_ws_scaled <- scale(f_ws[, -c(378,379,380,381,382)]) -->
+<!-- # dim(p_ws_scaled) -->
+<!-- rownames(f_ws_scaled) <- f_ws$SampleCode -->
+
+<!-- library(reshape2) # for melt -->
+<!-- # Data wrangling -->
+<!-- category <- melt(t(f_ws_scaled)) -->
+<!-- # colnames(category) = c("Group", "Taxon", "Value") -->
+<!-- # Heatmap -->
+<!-- f_heatmap_plot <- ggplot(category, aes(x=Var1, y=Var2, fill=value)) +  -->
+<!--   geom_tile(mapping = NULL, data = NULL, stat = "identity", -->
+<!--   position = "identity", na.rm = TRUE,inherit.aes = TRUE)+ -->
+<!--   scale_fill_gradient2(low = "lightblue",  high = "blue", na.value = "white", name  =" ") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6), -->
+<!--         legend.position = "top") + -->
+<!--   labs(x=NULL, y=NULL) + theme(axis.text.y = element_text(face = "italic", size = 6)) -->
+
+<!-- # Preview the heatmap -->
+<!-- print(f_heatmap_plot) -->
+<!-- ``` -->
+
+<br>
+
+# Which OTUs are most alike?
+
+# PCA (Principal Component Analysis)
+PCA is a procedure for identifying a smaller number of uncorrelated bushmeatvars, called “principal components”, from a large set of data. The goal of principal components analysis is to explain the maximum amount of variance with the minimum number of principal components.
+
+```{r dim_all}
+dim(phylum.t)
+dim(class.t)
+dim(order.t)
+dim(family.t)
+dim(genus.t)
+```
+
+
+## PCA
+```{r pca}
+library(FactoMineR)
+
+p.pca <- PCA(phylum.t, scale.unit = FALSE, graph = FALSE)
+c.pca <- PCA(class.t, scale.unit = FALSE, graph = FALSE)
+o.pca <- PCA(order.t, scale.unit = FALSE, graph = FALSE)
+f.pca <- PCA(family.t, scale.unit = FALSE, graph = FALSE)
+g.pca <- PCA(genus.t, scale.unit = FALSE, graph = FALSE)
+```
+In PCA missing values are replaced by the column mean
+
+### Scree plot
+```{r scree, fig.height=6, fig.width=10}
+p.scree <- fviz_screeplot(p.pca, xlab = "Dimensions", ylab = "Explained variance(%)", addlabels = TRUE,  ylim = c(0, 100)) + ggtitle("Phylum") + cleanup
+c.scree <- fviz_screeplot(c.pca, xlab = "Dimensions", ylab = "Explained variance(%)", addlabels = TRUE, ylim = c(0, 100)) + ggtitle("Class")  + cleanup
+f.scree <- fviz_screeplot(f.pca, xlab = "Dimensions", ylab = "Explained variance(%)", addlabels = TRUE, ylim = c(0,100)) + ggtitle("Family")  + cleanup
+g.scree <- fviz_screeplot(g.pca, xlab = "Dimensions", ylab = "Explained variance(%)", addlabels = TRUE, ylim = c(0, 100)) + ggtitle("Genus")  + cleanup
+
+multiplot(p.scree,  f.scree,c.scree, g.scree, cols = 2)
+```
+The scree plot shows us which components explain most of the variability in the data. In this case, almost 99.9% of the variances contained in the phylum data are retained by the first two principal components.
+
+<br><hr>
+
+## Visualize Principal Component Analysis
+### Amount contributed at phylum-level
+```{r p_viz}
+fviz_pca_ind(p.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all", scale=T)
+
+fviz_pca_var(p.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all", scale=T)
+
+fviz_pca_biplot(p.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all")
+```
+This highlights the most important bushmeatvars in explaining the variations retained by the principal components (Table x).
+
+<br>
+
+**Table x. Eigenvalues of the first 10 dimensions at phylum-level**
+```{r comment=NA}
+eigenvalues <- p.pca$eig
+head(eigenvalues, 10)
+```
+
+<br><hr>
+
+### Amount contributed at class-level
+```{r c_viz}
+fviz_pca_ind(c.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all")
+
+fviz_pca_var(c.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all")
+
+fviz_pca_biplot(c.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = FALSE, label = "all")
+```
+This highlights the most important bushmeatvars in explaining the variations retained by the principal components (Table x).
+
+<br>
+
+**Table x. Eigenvalues of the first 10 dimensions at class-level**
+```{r comment=NA}
+eigenvalues <- c.pca$eig
+head(eigenvalues, 10)
+```
+
+<br><hr>
+
+<!-- ### Amount contributed at family-level -->
+<!-- ```{r f_viz} -->
+<!-- fviz_pca_ind(f.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all") -->
+
+<!-- fviz_pca_var(f.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all") -->
+
+<!-- fviz_pca_biplot(f.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = FALSE, label = "all", labelsize = 3)  -->
+<!-- ``` -->
+<!-- This highlights the most important bushmeatvars in explaining the variations retained by the principal components (Table x). -->
+
+<!-- <br> -->
+
+<!-- **Table x. Eigenvalues of the first 10 dimensions at family-level** -->
+<!-- ```{r comment=NA} -->
+<!-- eigenvalues <- f.pca$eig -->
+<!-- head(eigenvalues, 10) -->
+<!-- ``` -->
+
+<!-- <br><hr> -->
+
+<!-- ### Amount contributed at genus-level -->
+<!-- ```{r g_viz} -->
+<!-- fviz_pca_ind(g.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all") -->
+
+<!-- fviz_pca_var(g.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = TRUE, label = "all") -->
+
+<!-- fviz_pca_biplot(g.pca, col.var="contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), repel = FALSE, label = "all", labelsize = 3) -->
+<!-- ``` -->
+<!-- This highlights the most important bushmeatvars in explaining the variations retained by the principal components (Table x). -->
+
+<!-- <br> -->
+
+<!-- **Table x. Eigenvalues of the first 10 dimensions at genus-level** -->
+<!-- ```{r} -->
+<!-- eigenvalues <- g.pca$eig -->
+<!-- head(eigenvalues, 10) -->
+<!-- ``` -->
+
+<!-- Interpretation: -->
+<!-- * The proportion of variation retained by the principal components was extracted using print(p.pca). -->
+<!-- * Eigenvalues is the amount of variation retained by each PC. The first PC corresponds to the maximum amount of variation in the data set. In this case, the first two principal components are worthy of consideration because A commonly used criterion for the number of factors to rotate is the eigenvalues-greater-than-one rule proposed by Kaiser (1960). -->
+
+<!-- ```{r} -->
+<!-- head(p.pca$var$contrib) -->
+<!-- ``` -->
+
+<!-- * bushmeatvars that are correlated with PC1 and PC2 are the most important in explaining the variability in the data set. -->
+<!-- * The contribution of bushmeatvars was extracted from output of print(p.pca): The larger the value of the contribution, the more the variable contributes to the component. -->
+
+<!-- ## Clustering  -->
+<!-- ### Number of best clusters -->
+<!-- * When using clustering algorithms, number of clusters mostly denoted as *k* must be specified. -->
+<!-- * You can use NbClust Package in determining the best number of clusters. -->
+<!-- * *NbClust* package provides about 30 indices for determining the number of clusters. -->
+<!-- * Does this by varying all combinations of number of clusters, distance measures, and clustering methods. -->
+<!-- * Then it proposes the best clustering scheme from the different results obtained. -->
+
+<!-- ```{r nbclust, include=FALSE} -->
+<!-- library(NbClust) -->
+<!-- NbClust(phylum.t, distance = "euclidean", min.nc=1, max.nc=4, method = "average", index = "ch") -->
+<!-- NbClust(class.t, distance = "euclidean", min.nc=1, max.nc=4, method = "average", index = "ch") -->
+<!-- NbClust(family.t, distance = "euclidean", min.nc=1, max.nc=4, method = "average", index = "ch") -->
+<!-- NbClust(genus.t, distance = "euclidean", min.nc=1, max.nc=4, method = "average", index = "ch") -->
+<!-- ``` -->
+
+<!-- ### Partitioning Around Medoids (PAM) -->
+<!-- * Partitioning (clustering) of the data into k clusters “around medoids” -->
+<!-- * Is considered to be the more robust version of K-means. -->
+<!-- * Medoids	are representative objects of the cluster. -->
+
+<!-- ```{r pam, fig.height=4, fig.width=12} -->
+<!-- library(cluster) -->
+<!-- set.seed(110912) -->
+<!-- p.pam <- pam(phylum.t, diss=FALSE, 4, keep.data=TRUE) -->
+<!-- fviz_silhouette(p.pam, label = TRUE, print.summary = TRUE) + ggtitle("Silhouette analysis at phylum-level") + smallaxislayout -->
+<!-- c.pam <- pam(class.t, diss=FALSE, 4, keep.data=TRUE) -->
+<!-- fviz_silhouette(c.pam, label = TRUE, print.summary = TRUE) + ggtitle("Silhouette analysis at class-level") + smallaxislayout -->
+<!-- f.pam <- pam(family.t, diss=FALSE, 4, keep.data=TRUE) -->
+<!-- fviz_silhouette(f.pam, label = TRUE, print.summary = TRUE) + ggtitle("Silhouette analysis at family-level") + smallaxislayout -->
+<!-- g.pam <- pam(genus.t, diss=FALSE, 4, keep.data=TRUE) -->
+<!-- fviz_silhouette(g.pam, label = TRUE, print.summary = TRUE) + ggtitle("Silhouette analysis at genus-level") + smallaxislayout -->
+<!-- ``` -->
+<!-- The above function uses the silhouette widths for assessing the best number of clusters. Here we can see that k=3 as distinguished by color bands. -->
+<!-- * **Interpretation** Observations with a large Si (almost 1) are very well clustered. -->
+<!-- * A small Si (around 0) means that the observation lies between two clusters. -->
+<!-- * Observations with a negative Si are probably placed in the wrong cluster. -->
+
+
+<!-- ### View medoids the representative objects at phylum-level -->
+<!-- **Table x. Centrally located point in the cluster** -->
+<!-- ```{r, echo=TRUE, include=FALSE} -->
+<!-- p.pam -->
+<!-- c.pam -->
+<!-- f.pam -->
+<!-- g.pam -->
+<!-- ``` -->
+<!-- This table shows medoids defined as the object of a cluster whose average dissimilarity to all the objects in the cluster is minimal. i.e. it is a most centrally located point in the cluster. -->
+
+
+<!-- ### Cluster representatives -->
+<!-- ```{r, comment=NA} -->
+<!-- cat("\nPhylum\n") -->
+<!-- phylum.t.v$Condition[p.pam$id.med] -->
+<!-- phylum.t.v$Species[p.pam$id.med] -->
+<!-- phylum.t.v$Season[p.pam$id.med] -->
+<!-- phylum.t.v$Ecosystem[p.pam$id.med] -->
+
+<!-- cat("\nClass\n") -->
+<!-- class.t.v$SampleCode[c.pam$id.med] -->
+<!-- class.t.v$Species[c.pam$id.med] -->
+<!-- class.t.v$Season[c.pam$id.med] -->
+<!-- class.t.v$Ecosystem[c.pam$id.med] -->
+
+<!-- cat("\nFamily\n") -->
+<!-- family.t.v$SampleCode[f.pam$id.med] -->
+<!-- family.t.v$Species[f.pam$id.med] -->
+<!-- family.t.v$Season[f.pam$id.med] -->
+<!-- family.t.v$Ecosystem[f.pam$id.med] -->
+
+<!-- cat("\nGenus\n") -->
+<!-- genus.t.v$SampleCode[g.pam$id.med] -->
+<!-- genus.t.v$Species[g.pam$id.med] -->
+<!-- genus.t.v$Season[g.pam$id.med] -->
+<!-- genus.t.v$Ecosystem[g.pam$id.med] -->
+<!-- ``` -->
+<!-- This prints out one item that represents each cluster. -->
+
+
+<!-- ### How the clusters were assigned -->
+<!-- ```{r clusters} -->
+
+<!-- par(mfrow=c(2,4)) -->
+<!-- fviz_cluster(p.pam, stand = FALSE, geom = "text", ellipse.type = "norm", main = "Phylum-level") + mediumaxislayout2 -->
+<!-- fviz_cluster(c.pam, stand = FALSE, geom = "text", ellipse.type = "norm", main = "Class-level") + mediumaxislayout2 -->
+<!-- fviz_cluster(f.pam, stand = FALSE, geom = "text", ellipse.type = "norm", main = "Family-level") + mediumaxislayout2 -->
+<!-- fviz_cluster(g.pam, stand = FALSE, geom = "text", ellipse.type = "norm", main = "Genus-level") + mediumaxislayout2 -->
+
+
+<!-- fviz_cluster(p.pam, stand = FALSE, geom = "point", ellipse.type = "norm", main = "Phylum-level") + mediumaxislayout2 -->
+<!-- fviz_cluster(c.pam, stand = FALSE, geom = "point", ellipse.type = "norm", main = "Class-level") + mediumaxislayout2 -->
+<!-- fviz_cluster(f.pam, stand = FALSE, geom = "point", ellipse.type = "norm", main = "Family-level") + mediumaxislayout2 -->
+<!-- fviz_cluster(g.pam, stand = FALSE, geom = "point", ellipse.type = "norm", main = "Genus-level") + mediumaxislayout2 -->
+<!-- ``` -->
+<!-- Silhouette (Si) analysis is a cluster validation approach that measures how well an observation is clustered and it estimates the average distance between clusters. -->

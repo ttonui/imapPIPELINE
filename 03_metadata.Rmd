@@ -1,0 +1,42 @@
+# Metadata and variables
+
+```{r metadata, message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+bushmeatvars <- read_table2(file = "data/metadata/186samples.metadata", col_names = TRUE)
+bushmeatvars_2 <- bushmeatvars %>% select("SampleCode", "BatchNo","Platform","Cycle","Season","Condition","Species","Ecosystem")
+
+exptalvars <- bushmeatvars %>% select("SampleCode","Season","Condition","Species","Ecosystem")
+
+batch <- bushmeatvars[, c(1,3)]
+platform <- bushmeatvars[, c(1,4)]
+cycle <- bushmeatvars[, c(1,5)]
+season <- bushmeatvars[, c(1,6)]
+condition <- bushmeatvars[, c(1,7)]
+species <- bushmeatvars[, c(1,8)]
+ecosystem <- bushmeatvars[, c(1,9)]
+```
+
+## Metadata type
+```{r checkmissing, comment=NA}
+library(funModeling)
+df_status(bushmeatvars)
+```
+
+## View Metadata data (10 rows)
+```{r format, message=FALSE, warning=FALSE, comment=NA}
+library(kableExtra)
+knitr::kable(
+  tail(bushmeatvars[,1:9], 10), "html", booktabs = TRUE,
+  caption = 'Table x: Last 10 rows of the variables metadata.'
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 12)
+```
+
+## Categorical variables
+```{r varsfreq, message=FALSE, warning=FALSE, comment=NA}
+library(funModeling)
+freq(bushmeatvars_2[,-c(1,4)])
+```
+
+

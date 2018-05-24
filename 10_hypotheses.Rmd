@@ -1,0 +1,269 @@
+# Data-driven hypotheses (examples)
+
+## Profiling genera of the federal select agents
+
+1. *Bacillus*
+2. *Brucella*
+3. *Burkholderia*
+4. *Clostridium*
+5. *Coxiella*
+6. *Francisella*
+7. *Mycoplasma*
+8. *Ralstonia*
+9. *Rathayibacter*
+10. *Rickettsia*
+11. *Staphylococcus*
+12. *Xanthomonas*
+13. *Yersinia*
+
+## Taxonomic lineages
+
+```{r global-options}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+![](pictures/selectagents.png)
+
+<!-- * Data -->
+<!--     * Load select agent genera names into the environment -->
+<!--     * Load genus data into the environment -->
+<!--     * Extract select agents genera -->
+<!--     * Visualize output -->
+
+* Text mining objects
+```{r selectnames, echo=TRUE}
+library(dplyr)
+# Bacillus
+bacillusnames <- c("Bacillus")
+write.table(bacillusnames,"./results/tables/bacillusnames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Brucella
+brucellanames <- c("Brucella")
+write.table(brucellanames,"./results/tables/brucellanames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Burkholderia
+burkholderianames <- c("Burkholderia")
+write.table(burkholderianames,"./results/tables/burkholderianames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Clostridium
+clostridiumnames <- c("Clostridium","Clostridium_sensu_stricto_1", "Clostridium_sensu_stricto", "Clostridium_sensu_stricto_3", "Clostridium_sensu_stricto_4", "Clostridium_sensu_stricto_5", "Clostridium_sensu_stricto_6", "Clostridium_sensu_stricto_7", "Clostridium_sensu_stricto_8", "Clostridium_sensu_stricto_9", "Clostridium_sensu_stricto_10", "Clostridium_sensu_stricto_11", "Clostridium_sensu_stricto_12", "Clostridium_sensu_stricto_13", "Clostridium_sensu_stricto_14", "Clostridium_sensu_stricto_15", "Clostridium_sensu_stricto_16", "Clostridium_sensu_stricto_17", "Clostridium_sensu_stricto_18", "Clostridium_sensu_stricto_19", "Clostridium_sensu_stricto", "Clostridium_XlVa", "Clostridium_XlVb", "Clostridium_XI", "Clostridium_III", "Clostridium_IV", "[Clostridium]", "Clostridium_g7", "Clostridium_g8")
+
+write.table(clostridiumnames,"./results/tables/clostridiumnames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Coxiella
+coxiellanames <- c("Coxiella")
+write.table(coxiellanames,"./results/tables/coxiellanames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Francisella
+francisellanames <- c("Francisella")
+write.table(francisellanames,"./results/tables/francisellanames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Mycoplasma
+mycoplasmanames <- c("Mycoplasma", "Mycoplasma_g14")
+write.table(mycoplasmanames,"./results/tables/mycoplasmanames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Ralstonia
+ralstonianames <- c("Ralstonia")
+write.table(ralstonianames,"./results/tables/ralstonianames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Rathayibacter
+rathayibacternames <- c("Rathayibacter")
+write.table(rathayibacternames,"./results/tables/rathayibacternames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Rickettsia
+rickettsianames <- c("Rickettsia")
+write.table(rickettsianames,"./results/tables/rickettsianames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Staphylococcus
+staphylococcusnames <- c("Staphylococcus")
+write.table(staphylococcusnames,"./results/tables/staphylococcusnames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Xanthomonas
+xanthomonasnames <- c("Xanthomonas")
+write.table(xanthomonasnames,"./results/tables/xanthomonasnames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+# Yersinia
+yersinianames <- c("Yersinia")
+write.table(yersinianames,"./results/tables/yersinianames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+
+
+### Select agent common genera nomenclature
+selectagentsnames <- c("Bacillus","Brucella","Burkholderia","Clostridium","Coxiella","Francisella","Mycoplasma","Ralstonia","Rathayibacter","Rickettsia","Staphylococcus","Xanthomonas","Yersinia")
+
+# selectagentsnames
+
+write.table(selectagentsnames,"./results/tables/selectagentsnames.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+```
+
+
+## Create objects of select agent genera 
+* Get a subset from genus data
+```{r selectgenus, echo=TRUE}
+library(dplyr)
+
+select_genus <- read.table(file="./results/tables/phylotype/seq_taxonomy/genus.tsv", stringsAsFactors=FALSE, header=T, sep='\t')
+
+selectgenera <- filter(select_genus, taxon %in% c(bacillusnames, brucellanames, burkholderianames, clostridiumnames, coxiellanames, francisellanames, mycoplasmanames, ralstonianames, rathayibacternames, rickettsianames, staphylococcusnames, xanthomonasnames, yersinianames))
+
+write.table(selectgenera,"./results/tables/phylotype/seq_taxonomy/selectgenera.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = FALSE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+```
+
+## Transpose then save the object
+```{r select.t, include=FALSE}
+select.t = setNames(data.frame(t(selectgenera[,-1])), selectgenera[,1])
+
+dim(select.t)
+
+write.table(select.t,"./results/tables/phylotype/seq_taxonomy/select.t.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = TRUE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+```
+
+## Relative abundance of selectgenera
+```{r selectprop}
+
+selectprop <- round(select.t/rowSums(select.t),4)
+write.table(selectprop,"./results/tables/phylotype/seq_taxonomy/selectprop.tsv", append = FALSE, quote = FALSE, sep="\t", row.names = TRUE, col.names = TRUE, qmethod = c("escape", "double"), fileEncoding = "")
+```
+
+## Add variables to select agents genera
+```{r select.t.v}
+### Create select objects containing bushmeatvars
+select.t.v <- select.t
+select.t.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+select.t.v$Condition <- as.character(bushmeatvars$Condition)
+select.t.v$Species <- as.character(bushmeatvars$Species)
+select.t.v$Season <- as.character(bushmeatvars$Season)
+select.t.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+
+selectprop.v <- selectprop
+selectprop.v$SampleCode <- as.character(bushmeatvars$SampleCode)
+selectprop.v$Condition <- as.character(bushmeatvars$Condition)
+selectprop.v$Species <- as.character(bushmeatvars$Species)
+selectprop.v$Season <- as.character(bushmeatvars$Season)
+selectprop.v$Ecosystem <- as.character(bushmeatvars$Ecosystem)
+```
+
+
+## Beta diversity analysis
+
+```{r selectscaled}
+select_ws <- select.t.v %>% filter(grepl("WestSerengeti", Ecosystem))
+# df_status(select_ws)
+select_rh <- select.t.v %>% filter(grepl("Ruaha", Ecosystem))
+# df_status(select_rh)
+select_sl <- select.t.v %>% filter(grepl("Selous", Ecosystem))
+# df_status(select_sl)
+
+select_ws_scaled <- scale(select_ws[, -c(14,15,16,17,18)])
+# dim(select_ws_scaled)
+select_rh_scaled <- scale(select_rh[, -c(14,15,16,17,18)])
+# dim(select_rh_scaled)
+select_sl_scaled <- scale(select_sl[, -c(14,15,16,17,18)])
+# dim(select_sl_scaled)
+
+rownames(select_ws_scaled) <- select_ws$SampleCode
+rownames(select_rh_scaled) <- select_rh$SampleCode
+rownames(select_sl_scaled) <- select_sl$SampleCode
+```
+
+<br>
+
+### Dendrogram plots
+```{r selectclustering, fig.height=8, fig.width=6}
+# Run clustering
+library(ggdendro)
+ws_select_matrix <- as.matrix(select_ws_scaled)
+rh_select_matrix <- as.matrix(select_rh_scaled)
+sl_select_matrix <- as.matrix(select_sl_scaled)
+
+rownames(ws_select_matrix) <- select_ws$SampleCode
+rownames(rh_select_matrix) <- select_rh$SampleCode
+rownames(sl_select_matrix) <- select_sl$SampleCode
+
+ws_select_dendro <- as.dendrogram(hclust(d = dist(x = ws_select_matrix)))
+rh_select_dendro <- as.dendrogram(hclust(d = dist(x = rh_select_matrix)))
+sl_select_dendro <- as.dendrogram(hclust(d = dist(x = sl_select_matrix)))
+
+# Create dendro plot
+ws_select_dendro_plot <- ggdendrogram(data = ws_select_dendro, rotate = TRUE)
+ws_select_dendro_plot <- ws_select_dendro_plot + theme(axis.text.y = element_text(size = 6))
+ws_select_dendro_plot <- ws_select_dendro_plot + ggtitle("West Serengeti ecosystem")
+
+rh_select_dendro_plot <- ggdendrogram(data = rh_select_dendro, rotate = TRUE)
+rh_select_dendro_plot <- rh_select_dendro_plot + theme(axis.text.y = element_text(size = 6))
+rh_select_dendro_plot <- rh_select_dendro_plot + ggtitle("Ruaha ecosystem")
+
+sl_select_dendro_plot <- ggdendrogram(data = sl_select_dendro, rotate = TRUE)
+sl_select_dendro_plot <- sl_select_dendro_plot + theme(axis.text.y = element_text(size = 6))
+sl_select_dendro_plot <- sl_select_dendro_plot + ggtitle("Selous ecosystem")
+
+# Preview the plot
+
+print(ws_select_dendro_plot)
+print(rh_select_dendro_plot)
+print(sl_select_dendro_plot)
+```
+
+
+<br>
+
+### Heatmap plots
+
+```{r westserengeti, fig.height=8, fig.width=6}
+
+library(reshape2) # for melt
+# Data wrangling
+category <- melt(t(select_ws_scaled))
+# colnames(category) = c("Group", "Taxon", "Value")
+# Heatmap
+ws_select_heatmap_plot <- ggplot(category, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile(mapping = NULL, data = NULL, stat = "identity",
+  position = "identity", na.rm = TRUE,inherit.aes = TRUE)+
+  scale_fill_gradient2(low = "lightblue",  high = "blue", na.value = "white", name  =" ") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8),
+        legend.position = "top") +
+  labs(x=NULL, y=NULL) + theme(axis.text.y = element_text(face = "italic", size = 6))
+
+# Preview the heatmap
+ws_select_heatmap_plot <- ws_select_heatmap_plot + ggtitle("West Serengeti ecosystem")
+print(ws_select_heatmap_plot)
+```
+
+<br>
+
+```{r ruaha, fig.height=8, fig.width=6}
+library(reshape2) # for melt
+# Data wrangling dataset
+category <- melt(t(select_rh_scaled))
+# colnames(category) = c("Group", "Taxon", "Value")
+# Heatmap
+rh_select_heatmap_plot <- ggplot(category, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile(mapping = NULL, data = NULL, stat = "identity",
+  position = "identity", na.rm = TRUE,inherit.aes = TRUE)+
+  scale_fill_gradient2(low = "lightblue",  high = "blue", na.value = "white", name  =" ") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8),
+        legend.position = "top") +
+  labs(x=NULL, y=NULL) + theme(axis.text.y = element_text(face = "italic", size = 6))
+
+# Preview the heatmap
+rh_select_heatmap_plot <- rh_select_heatmap_plot + ggtitle("Ruaha ecosystem")
+print(rh_select_heatmap_plot)
+```
+
+<br>
+
+```{r selous, fig.height=8, fig.width=6}
+library(reshape2) # for melt
+# Data wrangling
+category <- melt(t(select_sl_scaled))
+# colnames(category) = c("Group", "Taxon", "Value")
+# Heatmap
+sl_select_heatmap_plot <- ggplot(category, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile(mapping = NULL, data = NULL, stat = "identity",
+  position = "identity", na.rm = TRUE,inherit.aes = TRUE)+
+  scale_fill_gradient2(low = "lightblue",  high = "blue", na.value = "white", name  =" ") + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8),
+        legend.position = "top") +
+  labs(x=NULL, y=NULL) + theme(axis.text.y = element_text(face = "italic", size = 6))
+
+# Preview the heatmap
+sl_select_heatmap_plot <- sl_select_heatmap_plot + ggtitle("Selous ecosystem")
+print(sl_select_heatmap_plot)
+```
