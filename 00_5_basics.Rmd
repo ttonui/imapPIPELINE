@@ -1,0 +1,30 @@
+# Basics {-}
+
+## Basic skills {-}
+* Applied Bioinformatics.
+* Software download and installation. 
+* Best friend: Google is your best teacher, just search.
+* Take advantage of online training materials:
+  * Bioinformatics: [Biostar handbook](https://read.biostarhandbook.com/), provide beginner's guide to Bioinformatics and software installation.
+  * R-skills: Causera
+  
+## Hardware {-}  
+* Computer with multi-core processor: 64-bit
+* Remote Accessory Memory (RAM): 8GB+ 
+* Disk space: Tens of gigabytes for small dataset otherwise a few terabytes of storage space may be required for larger datasets.
+
+## Software, language & tools {-}
+* R [@R-base]
+* Rstudio IDE [Link](https://www.rstudio.com)
+
+## Major R packages {-}
+* Rmarkdown [@R-rmarkdown]
+* knitr [@R-knitr]
+* ggplot2 [@R-ggplot2]
+* dplyr [@R-dplyr]
+* shiny [@R-shiny]
+* vegan [@R-vegan]
+* funModeling [@R-funModeling]
+
+
+ 

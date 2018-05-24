@@ -1,0 +1,6 @@
+Pipeline: iMAP
+Type: Report Book
+Title: In progress
+Version: 0.0.1
+Imports: bookdown
+Remotes: rstudio/bookdown

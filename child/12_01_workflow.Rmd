@@ -1,0 +1,5 @@
+## Workflow
+
+Figure 1 presents initial steps of exploratory data analysis in microbiome research using 16S rRNA gene markers.
+
+![Figure 1. Proposed workflow for exploratory analysis and quality control of 16S rRNA gene reads](img/explorewkflow.png)

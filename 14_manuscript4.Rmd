@@ -1,0 +1,28 @@
+# Proposed manuscript 4
+
+## Title {-}
+
+
+## Abstract {-}
+* Max words: 350
+* Background
+* Results 
+* Conclusions
+* Keywords
+
+\newpage
+
+## Background
+## Results
+## Discussion
+## Conclusions
+## Methods 
+## List of abbreviations
+## Declarations
+## Ethics approval and consent to participate
+## Consent for publication
+## Availability of data and materials
+## Competing interests
+## Funding
+## Authors' contributions
+## Acknowledgements

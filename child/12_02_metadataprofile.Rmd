@@ -1,0 +1,23 @@
+### Variable status
+```{r varstatus, comment=NA}
+library(funModeling)
+df_status(exptalvars)
+```
+
+### Variable table (10 rows)
+```{r metadata_table, comment=NA}
+library(kableExtra)
+knitr::kable(
+  tail(exptalvars, 10), "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 12)
+```
+
+### Variable distribution
+```{r metadata_var}
+library(funModeling)
+freq(exptalvars[,-1])
+```
+
+
+<br>

@@ -1,0 +1,55 @@
+# Proposed manuscript 2
+
+## Exploratory and initial analysis of bushmeat microbiome data {-}
+
+## Abstract {-}
+* Max words: 350
+* Background
+* Results 
+* Conclusions
+* Keywords
+
+\newpage 
+
+\newpage
+
+## Background
+
+Bioinformatic analysis of microbiome data follow similar pattern where an input file in FASTQ format is loaded into a known pipeline such as mothur [@Schloss2009; @Schloss2018] and QIIME [@Kuczynski2012] to produce an output file commonly known as OTU abundance table. In most microbiome studies a biologist supplies the input file to a bioinformatician who run multiple scripts to process the data and assign taxonomic names to the representative sequences. 
+<!-- ![Fig 1: Simplified data input-output model](img/inout.png) -->
+However, microbiome data analysis is a complex process that requires integrated expertize in a multidisciplinary approach. Before starting formal data modeling investigators may want to explore the results to better understand the complex statistical models that may be applied to the downstream analyses.
+
+The analysis may involve a lot of analysis steps and output files generated prior to the OTU abundance table that are ignored but could be reviewed by the biologist and advise otherwise. In some cases bioinformatician just run the analysis without having any clue of what the results might be or if the results are statistically bad or good. On the other hand the biologist may have no clue on how to interpret the results something that may involve a statistician. In other scenario the results may need to be interpreted visually forming another case where a data scientist may be involved to help with visualization. 
+
+Here we describe a simplified workflow that guides the investigators and bioinformaticians to explore, profile and understand their microbiome dataset and the associated variables prior to intensive bioinformatics analysis. It is expected that the investigators will generate more research questions to guide the subsequent analyses. Descriptive statistics are integrated in the workflow to facilitate informed decision.
+
+<br>  
+
+```{r child = 'child/12_01_workflow.Rmd'}
+```
+
+## Results
+
+```{r child = 'child/12_02_metadataprofile.Rmd'}
+```
+
+```{r child = 'child/12_03_wordcloud.Rmd'}
+```
+
+```{r child = 'child/12_04_readfeatures.Rmd'}
+```
+
+## Discussion
+```{r child = 'child/12_05_summary.Rmd'}
+```
+
+## Conclusions
+## List of abbreviations
+## Declarations
+## Ethics approval and consent to participate
+## Consent for publication
+## Availability of data and materials
+## Competing interests
+## Funding
+## Authors' contributions
+## Acknowledgements

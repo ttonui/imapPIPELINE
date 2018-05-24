@@ -1,0 +1,43 @@
+## Read features
+
+```{r stats, message=FALSE, warning=FALSE}
+library(readr)
+stats <- read_table2(file = "../results/stats/qcstats.txt")
+```
+
+**Read statistics**
+```{r statstable, message=FALSE, warning=FALSE}
+library(kableExtra)
+
+knitr::kable(stats, "html"
+) %>%
+  kable_styling(bootstrap_options = "striped", font_size = 10)
+```
+
+**Read features**
+```{r datastatus, comment=NA}
+library(funModeling)
+df_status(stats)
+```
+
+**Sequence depth**
+```{r nseqs, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+
+nseqs <- stats %>% select("file", "num_seqs")
+# plot_num(nseqs, bins = 30)
+
+# Histogram overlaid with kernel density curve
+ggplot(stats, aes(x=num_seqs)) + 
+    geom_histogram(colour="black", fill="steelblue") +
+  xbreaks10 + xlab("Number of sequences") + ylab("Number of samples") + mediumaxislayout2
+```
+
+**Read length**
+```{r readlen}
+library(funModeling)
+readlen <- stats %>% select("num_seqs", "min_len", "avg_len", "max_len")
+plot_num(readlen)
+```
+

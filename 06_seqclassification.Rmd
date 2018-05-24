@@ -1,0 +1,6 @@
+# Analysis of taxonomy results
+
+```{r eval=FALSE, child='child/06_01_seqtaxanalysis.Rmd', include=FALSE}
+
+```
+
