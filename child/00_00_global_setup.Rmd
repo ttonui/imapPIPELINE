@@ -1,4 +1,8 @@
 ```{r global, message=FALSE, warning=FALSE, include=FALSE}
+
+# global setup
+knitr::opts_chunk$set(fig.show='asis',  dev = 'png', fig.align='center', out.width = "100%",  out.height = "100%", echo=TRUE, comment = NA, warning=FALSE, message=FALSE)
+
 # Load packages
 if (!require("ggplot2")) {install.packages("ggplot2", dependencies = TRUE)}
 library(ggplot2)
@@ -38,12 +42,10 @@ library("wordcloud")
 if (!require("RColorBrewer")) {install.packages("RColorBrewer", dependencies = TRUE)}
 library("RColorBrewer")
 
-# fig.path='./figures/',
-knitr::opts_chunk$set(fig.show='asis',  dev = 'png', fig.align='center', out.width = "100%",  out.height = "100%", echo=TRUE, comment = NA, warning=FALSE, message=FALSE)
-# knitr::opts_chunk$set(fig.path='img/qc0img/', fig.show='asis',  dev = 'pdf', fig.align='center', out.width = "100%",  out.height = "100%", echo=FALSE, warning=FALSE, message=FALSE)
-
-knitr::opts_chunk$set(warning=FALSE, message=FALSE)
-
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'base','bookdown', 'knitr','rmarkdown','ggplot2','dplyr','shiny','vegan','funModeling','tidyverse','reshape2','grid','scales', 'readr', 'dplyr', 'factoextra', 'FactoMineR', 'NbClust', 'cluster', 'ggdendro', 'kableExtra', 'tm', 'SnowballC', 'wordcloud', 'wordcloud2', 'RColorBrewer'
+), '../library/packages.bib')
 
 # clean ggplot background
 cleanup = theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(color = "black"))
