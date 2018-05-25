@@ -1,9 +1,89 @@
 # Sequence processing
+* Adopted *mothur* pipeline [@Schloss2009] with few modifications
 
-## Introduction
-Here we can review the column specifications of the assembly report
+## Download latest stable version of *mothur* and put it into the code directory
+>!Important: Latest versions may not work well until it is stable. You may just install a previous version if you face problems with the latest one.
 
-## Assembly report
-```{r}
-
+```{}
+wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v1.39.5/Mothur.linux_64.zip
+unzip Mothur.linux_64.zip
+cp mothur/mothur ~/bin/
+mv mothur code/
+rm Mothur.linux_64.zip
+rm -rf __MACOSX
 ```
+
+## Assemble paired reads
+* Forward and reverse reads are joined then screened
+* At each step a summary file is generated
+* Review the summary before proceeding
+* Optionally set to use four processors
+```{}
+set.dir(input=data/mothur/, output=data/mothur/)
+set.current(processors=4)
+make.file(inputdir=data/raw/qced, type=gz, prefix=qced)
+make.contigs(file=current, inputdir=data/raw/qced, outputdir=data/mothur/)
+summary.seqs(fasta=current)
+screen.seqs(fasta=current, group=current, maxambig=0, minlength=140, maxlength=310)
+```
+
+## Get representative sequences
+```{}
+unique.seqs(fasta=current)
+summary.seqs(fasta=current)
+count.seqs(name=current, group=current)
+summary.seqs(count=current)
+```
+
+## Get reference 16S rRNA alignments
+* Download SILVA database ana put the files into the data/references directory
+* Pull out the bacteria-specific sequences then clean up the directories to remove the extra files
+```{}
+mkdir data/references 
+
+wget --no-check-certificate https://www.mothur.org/w/images/3/32/Silva.nr_v132.tgz
+tar xvzf Silva.nr_v132.tgz silva.nr_v132.align silva.nr_v132.tax
+code/mothur/mothur "#get.lineage(fasta=silva.nr_v132.align, taxonomy=silva.nr_v132.tax, taxon=Bacteria);degap.seqs(fasta=silva.nr_v132.pick.align, processors=8)"
+mv silva.nr_v132.pick.align data/references/silva.nr.align
+mv silva.nr_v132.pick.tax data/references/silva.nr.tax
+rm S*.tgz
+rm silv*
+```
+
+## Align sequences to the reference alignments
+* Allows to get consensus 16S rRNA gene sequences
+* Requires reference 16S rRNA alignments
+* SILVA [@] is our pick, is highly curated
+* More cleaning is done after alignment
+```{}
+set.dir(input=data/mothur/, output=data/mothur/)
+set.current(processors=4)
+align.seqs(fasta=qced.trim.contigs.good.unique.fasta, reference=data/references/silva.nr.align)
+summary.seqs(fasta=current, count=qced.trim.contigs.good.count_table)
+screen.seqs(fasta=current, count=current, maxambig=0, minlength=140, maxlength=310, maxhomop=8)
+summary.seqs(fasta=current, count=current)
+filter.seqs(fasta=current, vertical=T)
+summary.seqs(fasta=current, count=current)
+unique.seqs(fasta=current, count=current)
+summary.seqs(fasta=current, count=current)
+```
+
+## Remove bad alignment
+```{}
+set.dir(input=data/mothur/, output=data/mothur/)
+set.current(processors=4)
+pre.cluster(fasta=qced.trim.contigs.good.unique.good.filter.unique.fasta, count=qced.trim.contigs.good.unique.good.filter.count_table, diffs=1)
+summary.seqs(fasta=current, count=current)
+system(rm ./data/mpthur/*.map)
+```
+
+## Remove chimeric sequences
+* Uses *vsearch* [@Rognes2016] which is run from within *mothur*
+```{}
+set.dir(input=data/mothur/, output=data/mothur/)
+set.current(processors=4)
+chimera.vsearch(fasta=qced.trim.contigs.good.unique.good.filter.unique.precluster.fasta, count=qced.trim.contigs.good.unique.good.filter.unique.precluster.count_table, dereplicate=T)
+remove.seqs(fasta=current, accnos=current)
+summary.seqs(fasta=current, count=current)
+```
+

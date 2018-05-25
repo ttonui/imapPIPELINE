@@ -113,3 +113,4 @@ multiqc  ./results/fastqc/qctrim25 -o ./results/multiqc/qctrim25
 multiqc ./results/fastqc/qced  -o ./results/multiqc/qced
 ```
 
+![](img/qced.png)
