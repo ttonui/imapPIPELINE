@@ -113,3 +113,4 @@ multiqc  ./results/fastqc/qctrim25 -o ./results/multiqc/qctrim25
 multiqc ./results/fastqc/qced  -o ./results/multiqc/qced
 ```
 
+![Trimemed at Q = 25](img/qced.png)

@@ -1,6 +1,6 @@
 # Profiling Microbial Communities in Bushmeat Samples {-}
 <br>
-<center><h3>Teresia M. Buza^1^ and Triza Tonui^2^</h3>
+<center><h3>Teresia M. Buza^1^, Triza Tonui^2^, et al^1^^,^^2^</h3>
 ^1^Penn State University and ^2^BecA-ILRI Hub
 
 <h4>Updated: `r Sys.Date()`</h4>
