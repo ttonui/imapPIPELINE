@@ -5,6 +5,7 @@
 * Best friend: Google:). Just ask the right question.
 * Take advantage of online training materials:
   * Bioinformatics: [Biostar handbook](https://read.biostarhandbook.com/), provide beginner's guide to Bioinformatics and software installation.
+  * Fork & Pull request: I bookmarked [this site:)](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
 
 ### Hardware  
 * Computer with multi-core processor: 64-bit
