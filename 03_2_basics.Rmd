@@ -17,6 +17,7 @@
 
 ### Major R packages
 * Rmarkdown [@R-rmarkdown]
+* bookdoown [@R-bookdown]
 * knitr [@R-knitr]
 * ggplot2 [@R-ggplot2]
 * dplyr [@R-dplyr]

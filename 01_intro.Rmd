@@ -7,13 +7,13 @@ To characterize the spectrum of microbes present in market bushmeat using powerf
 
 ## Sample collection, recording and processing
 * Place: Nelson Mandela African Institute of Science and Technology ([NM-AIST](http://www.nm-aist.ac.tz/))
-* Expected data: Metadata
+* **Expected data:** Metadata
 
->Uniform and informative short sample IDentifiers are very important in downstream analysis.
+>Uniform and informative short sample IDentifiers are crucial in the downstream analysis.
 
 ## Speciation    
 * Place: Sokoine University of Agriculture  ([SUA](http://www.suanet.ac.tz/))
-* Expected data: Confirmed names of animal species.
+* **Expected data:** Confirmed names of animal species.
 
 ## NGS DNA Sequencing
 * Place: Biosciences eastern and central Africa - International Livestock Research Institute ([BecA-ILRI](http://hub.africabiosciences.org/)) Hub
@@ -25,6 +25,6 @@ To characterize the spectrum of microbes present in market bushmeat using powerf
 * DNA sequencing protocol 2: Illumina
   * Sequenced regions: v34 of 16S rRNA gene.
   130 samples
-* Expected data: Paired-end demultiplexed FASTQ files for each samples
+* **Expected data:** Paired-end demultiplexed FASTQ files for each samples
 
 
