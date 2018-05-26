@@ -61,6 +61,10 @@ mkdir results/stats
 ./code/seqkit stat ./data/raw/*.fastq.gz -o ./results/stats/qcstats.txt
 ```
 
+![](img/nseqs-1.png)
+![](img/readlen-1.png)
+
+
 ## Get basecall scores
 * Required folders
 ```{}
