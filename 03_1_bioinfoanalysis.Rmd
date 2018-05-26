@@ -2,3 +2,6 @@
 
 ## Generalized workflow
 ![](img/16Simap.png)
+
+<hr>
+
