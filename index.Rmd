@@ -5,9 +5,11 @@
 # - affiliation: ^1^Penn State University and ^2^BecA-ILRI Hub
 # - name: Teresia M. Buza^1^ and Triza Tonui^2^
 # date: "Updated: `r Sys.Date()`"
+split_by: chapter
 site: bookdown::bookdown_site
 output: bookdown::gitbook
-documentclass: book
+# documentclass: [book, openany]
+documentclass: [book, oneside]
 bibliography: [library/book.bib, library/packages.bib, library/imapbook.bib]
 biblio-style: apalike
 link-citations: yes

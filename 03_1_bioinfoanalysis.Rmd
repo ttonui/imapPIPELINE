@@ -1,0 +1,4 @@
+# Microbiome Bioinformatics Analysis
+
+## Generalized workflow
+![](img/16Simap.png)

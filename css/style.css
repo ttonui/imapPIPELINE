@@ -17,10 +17,11 @@ text-align: center;
 font-style: normal;
 } 
 h1{
-  text-align: center;
+text-align: center;
 }
 hr {
-  border: solid rgb(200, 200, 200);
+/*  border: solid rgb(200, 200, 200);*/
+  border: solid maroon);
 }
 img { 
   width:100%; 

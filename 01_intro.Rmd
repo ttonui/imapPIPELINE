@@ -1,4 +1,30 @@
 # Introduction
+<!-- > Add something here... -->
 
-This book presents a reproducible report generated using Rmarkdown. Chapters 1, 2, and 3 introduces the basics, pipeline used and the variables to be analyzed. Chapters 4 through 6 describe the preprocessing, processing and classfication of 16S rRNA gene sequences. Chapter 7 through 10 describes the analysis of the reslts and the last four chapters are the potential manuscripts. In summary you can easily reproduce this report using your own datases. 
+## Project objective
+To characterize the spectrum of microbes present in market bushmeat using powerful screening approaches, and to identify signatures of novel pathogens that may pose potential animal and human health risk.
+[Read more...](https://www.bushmeatbiosecurityresearch.org/objectives)
+
+## Sample collection, recording and processing
+* Place: Nelson Mandela African Institute of Science and Technology ([NM-AIST](http://www.nm-aist.ac.tz/))
+* **Expected data:** Metadata
+
+>Uniform and informative short sample IDentifiers are crucial in the downstream analysis.
+
+## Speciation    
+* Place: Sokoine University of Agriculture  ([SUA](http://www.suanet.ac.tz/))
+* **Expected data:** Confirmed names of animal species.
+
+## NGS DNA Sequencing
+* Place: Biosciences eastern and central Africa - International Livestock Research Institute ([BecA-ILRI](http://hub.africabiosciences.org/)) Hub
+* NGS platform: Illumina MiSeq
+* DNA sequencing protocol 1: [@Caporaso2012]
+  * Sequenced regions: v4 of 16S rRNA gene.
+  * 56 samples
+
+* DNA sequencing protocol 2: Illumina
+  * Sequenced regions: v34 of 16S rRNA gene.
+  130 samples
+* **Expected data:** Paired-end demultiplexed FASTQ files for each samples
+
 

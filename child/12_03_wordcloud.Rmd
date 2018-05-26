@@ -50,7 +50,7 @@ set.seed(110912)
 # wordcloud2(d)
 
 # Global variables can go here
-wordcloud2(d, size = 1, minRotation = -pi/6, maxRotation = pi/6,
+wordcloud2(d, size = .7, minRotation = -pi/6, maxRotation = pi/6,
   rotateRatio = 1, shape = 'rectangle', color = "random-light", backgroundColor = "black")
 ```
 

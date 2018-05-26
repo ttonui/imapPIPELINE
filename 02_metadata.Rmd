@@ -1,4 +1,4 @@
-# Metadata and variables
+# Experimental variables
 
 ```{r metadata, message=FALSE, warning=FALSE}
 library(readr)
@@ -17,23 +17,23 @@ species <- bushmeatvars[, c(1,8)]
 ecosystem <- bushmeatvars[, c(1,9)]
 ```
 
-## Metadata type
+## Status of variables
 ```{r checkmissing, comment=NA}
 library(funModeling)
 df_status(bushmeatvars)
 ```
 
-## View Metadata data (10 rows)
+## View variables in table format (10 rows)
 ```{r format, message=FALSE, warning=FALSE, comment=NA}
 library(kableExtra)
 knitr::kable(
   tail(bushmeatvars[,1:9], 10), "html", booktabs = TRUE,
-  caption = 'Table x: Last 10 rows of the variables metadata.'
+  caption = 'Last 10 rows of the variables metadata.'
 ) %>%
   kable_styling(bootstrap_options = "striped", font_size = 12)
 ```
 
-## Categorical variables
+## Distribution of variables
 ```{r varsfreq, message=FALSE, warning=FALSE, comment=NA}
 library(funModeling)
 freq(bushmeatvars_2[,-c(1,4)])
