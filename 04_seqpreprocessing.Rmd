@@ -1,15 +1,11 @@
 # Sequence pre-processing
 
-## Get started
-```{}
-mkdir data/raw 
-```
-
 ## Rawdata
 * Obtain the raw data and put the files into the data/raw directory
 * Training set: 8 murine gut samples + 1 Mock sample, a subset extracted from [StabilityNoMetaG.tar](https://www.mothur.org/MiSeqDevelopmentData).  
 
 ```{}
+mkdir data/raw 
 cp ./data/process/raw.zip ./
 unzip raw.zip
 cp raw/* ./data/raw

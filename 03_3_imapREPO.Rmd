@@ -1,10 +1,9 @@
-# iMAP pipeline
+# The iMAP Pipeline
 
 ## Development version
 <h4>GitHub repository: https://github.com/tmbuza/iMAP</h4>
 
 ## Structure of iMAP repository
-
 ```{}
 	iMAP
 	|- README.md      # Top level description of iMAP
@@ -88,8 +87,11 @@ cd iMAP
 * For demonstration purposes the iMAP test package includes 9 samples (8 from murine gut and 1 Mock community), a subset extracted from [StabilityNoMetaG.tar](https://www.mothur.org/MiSeqDevelopmentData).
 * You can replace the rawdata and metadata by placing your data in the corresponding folders.
 
-## Usage of driver script
+## Non-interactive usage of driver script
 ```{}
 bash ./code/iMAP_driver.bash
 ```
 
+## Interactive analysis using iMAP scripts
+* The following five chapters are designated for interactive analysis using **command line** and **mothur** terminal.
+* Interactive approach allows investigators to review the results progressively.

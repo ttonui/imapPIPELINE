@@ -1,4 +1,4 @@
-# Data transformation
+# Dataset transformation
 
 ```{r child = 'child/08_01_seqtaxonomy.Rmd'}
 ```
