@@ -1,5 +1,3 @@
-<hr>
-
 ## Fostering reproducibility
 ### Basic skills
 * Software download and installation. 
