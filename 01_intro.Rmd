@@ -22,7 +22,7 @@ To characterize the spectrum of microbes present in market bushmeat using powerf
   * Sequenced regions: v4 of 16S rRNA gene.
   * 56 samples
 
-* DNA sequencing protocol 2: Illumina
+* DNA sequencing protocol 2: [Illumina](https://www.illumina.com/content/dam/illumina-support/documents/documentation/chemistry_documentation/16s/16s-metagenomic-library-prep-guide-15044223-b.pdf) 
   * Sequenced regions: v34 of 16S rRNA gene.
   130 samples
 * **Expected data:** Paired-end demultiplexed FASTQ files for each samples

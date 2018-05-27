@@ -1,0 +1,18 @@
+# Data manipulation for downstream analysis
+
+## Get `lefse` and `biom` formatted files
+* **lefse** files can be used in linear discriminatory analysis (LDA) [@].
+* **biom** files facilitate the use of results between other tools such as QIIME, MG-RAST, and VAMPS. Mothur currently uses [version 1.0 formats](http://biom-format.org/documentation/format_versions/biom-1.0.html#the-biom-file-format-version-1-0)
+* Both formats include metadata
+
+```{}
+make.lefse(shared=current, constaxonomy=current)
+make.biom(shared=current, constaxonomy=current)
+```
+
+
+```{r child = 'child/08_01_seqtaxonomy.Rmd'}
+```
+
+```{r child = 'child/08_02_constaxonomy.Rmd'}
+```
