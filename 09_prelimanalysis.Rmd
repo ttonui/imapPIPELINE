@@ -1,0 +1,149 @@
+# Preliminary analysis
+
+## Final sequence counts and species abundance
+```{}
+set.dir(input=./data/mothur/phylotype, output=./data/mothur/phylotype/)
+system(cp ./data/mothur/phylotype/qced.trim.contigs.good.unique.good.filter.unique.precluster.pick.nr.wang.pick.pick.tx.shared ./data/mothur/phylotype/qced.otu.shared)
+set.dir(input=./data/mothur/phylotype/, output=./data/mothur/phylotype/01_groupcount)
+count.groups(shared=qced.otu.shared)
+set.dir(input=./data/mothur/phylotype/, output=./data/mothur/phylotype/01_groupcount)
+summary.single(shared=qced.otu.shared, calc=nseqs-coverage-sobs-invsimpson-chao-npshannon)
+```
+
+## Get subsample for normalized diversity analysis
+```{}
+set.dir(input=./data/mothur/phylotype/, output=./data/mothur/phylotype/02_subsample)
+sub.sample(shared=qced.otu.shared)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/03_summary)
+summary.single(shared=qced.otu.1.subsample.shared, calc=nseqs-coverage-sobs-invsimpson-chao-npshannon)
+```
+
+## Rarefaction data
+```{}
+set.dir(input=./data/mothur/phylotype/, output=./data/mothur/phylotype/04_rarefy100)
+rarefaction.single(shared=qced.otu.shared, calc=sobs-chao-ace, freq=100)
+```
+
+## Get distance metrics and phylip tree
+* Use this to compare samples phylogenetically
+```{}
+set.dir(input=./data/mothur/phylotype/, output=./data/mothur/phylotype/05_dist)
+dist.shared(shared=qced.otu.shared, calc=thetayc-jclass-braycurtis)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/06_tree)
+tree.shared(phylip=qced.otu.braycurtis.1.lt.dist, calc=jest-thetayc-braycurtis)
+```
+
+## Use `parsimony` method for statistical analysis of phylip tree
+```{}
+set.dir(input=./data/mothur/phylotype/06_tree, output=./data/mothur/phylotype/07_parsimony/condition)
+parsimony(tree=qced.otu.braycurtis.1.lt.tre, group=./data/metadata/condition.design,  groups=all)
+set.dir(input=./data/mothur/phylotype/06_tree, output=./data/mothur/phylotype/07_parsimony/season)
+parsimony(tree=qced.otu.braycurtis.1.lt.tre, group=./data/metadata/season.design,  groups=all)
+set.dir(input=./data/mothur/phylotype/06_tree, output=./data/mothur/phylotype/07_parsimony/ecosystem)
+parsimony(tree=qced.otu.braycurtis.1.lt.tre, group=./data/metadata/ecosystem.design,  groups=all)
+set.dir(input=./data/mothur/phylotype/06_tree, output=./data/mothur/phylotype/07_parsimony/species)
+parsimony(tree=qced.otu.braycurtis.1.lt.tre, group=./data/metadata/species.design,  groups=all)
+```
+
+## PCoA & NMDS ordination data
+```{}
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/08_pcoa/)
+pcoa(phylip=qced.otu.braycurtis.1.lt.dist)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/09_nmds/)
+nmds(phylip=qced.otu.braycurtis.1.lt.dist, mindim=3, maxdim=3)
+```
+
+## Statistical analysis
+
+* **AMOVA: Analysis of Molecular Variance**
+```{}
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/10_amova/condition)
+amova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/condition.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/10_amova/season)
+amova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/season.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/10_amova/ecosystem)
+amova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/ecosystem.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/10_amova/species)
+amova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/species.design)
+```
+
+* **HOMOVA: Homogeneity of Molecular Variance**
+```{}
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/11_homova/condition)
+homova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/condition.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/11_homova/season)
+homova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/season.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/11_homova/ecosystem)
+homova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/ecosystem.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/11_homova/species)
+homova(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/species.design)
+```
+
+* **ANOSIM: Analysis of Similarity**
+```{}
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/12_anosim/condition)
+anosim(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/condition.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/12_anosim/season)
+anosim(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/season.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/12_anosim/ecosystem)
+anosim(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/ecosystem.design)
+set.dir(input=./data/mothur/phylotype/05_dist, output=./data/mothur/phylotype/12_anosim/species)
+anosim(phylip=qced.otu.braycurtis.1.lt.dist, design=./data/metadata/species.design)
+```
+
+## Correlation between shared OTUs and PCoA axes
+```{}
+set.dir(input=./data/mothur/phylotype/08_pcoa/, output=./data/mothur/phylotype/13_corr)
+corr.axes(axes=qced.otu.braycurtis.1.lt.pcoa.axes, shared=./data/mothur/phylotype/02_subsample/qced.otu.1.subsample.shared, method=spearman, numaxes=3)
+```
+
+## Get OTU indicators
+* Indicator analysis provides summary file that lists the indicator value for each OTU.
+* See [@Kremen1992] for background on the indicator metric.
+```{}
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/14_indicator/condition)
+indicator(shared=qced.otu.1.subsample.shared, design=./data/metadata/condition.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/14_indicator/season)
+indicator(shared=qced.otu.1.subsample.shared, design=./data/metadata/season.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/14_indicator/ecosystem)
+indicator(shared=qced.otu.1.subsample.shared, design=./data/metadata/ecosystem.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/14_indicator/species)
+indicator(shared=qced.otu.1.subsample.shared, design=./data/metadata/species.design, iters=1000)
+```
+
+## Get community partitions
+* Probabilistic modelling is employed to cluster microbial communities into metacommunities, or enterotypes.
+* Uses Laplace value to determine number of partitions 
+* See [@Holmes2012] for more information
+```{}
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/15_community/)
+get.communitytype(shared=qced.otu.1.subsample.shared, minpartitions=2)
+```
+
+## Get differentially abundant features using **metastats**
+* See [@White2009] for more information
+```{}
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/16_metastats/condition)
+metastats(shared=qced.otu.1.subsample.shared, design=./data/metadata/condition.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/16_metastats/season)
+metastats(shared=qced.otu.1.subsample.shared, design=./data/metadata/season.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/16_metastats/ecosystem)
+metastats(shared=qced.otu.1.subsample.shared, design=./data/metadata/ecosystem.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/16_metastats/species)
+metastats(shared=qced.otu.1.subsample.shared, design=./data/metadata/species.design, iters=1000)
+```
+
+## Biomarker discovery using **lefse** method
+* Finds significant features characterizing specified experimental variables.
+* Refer [@Segata2011]
+```{}
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/17_lefse/condition)
+lefse(shared=qced.otu.1.subsample.shared, design=./data/metadata/condition.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/17_lefse/season)
+lefse(shared=qced.otu.1.subsample.shared, design=./data/metadata/season.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/17_lefse/ecosystem)
+lefse(shared=qced.otu.1.subsample.shared, design=./data/metadata/ecosystem.design, iters=1000)
+set.dir(input=./data/mothur/phylotype/02_subsample/, output=./data/mothur/phylotype/17_lefse/species)
+lefse(shared=qced.otu.1.subsample.shared, design=./data/metadata/species.design, iters=1000)
+```
+

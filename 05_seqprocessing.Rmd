@@ -1,7 +1,7 @@
 # Sequence processing
 
-## Download latest stable version of *mothur* 
-* Put it into the code directory
+## Download latest stable version of **mothur**
+* Put the mothur folder in the code directory
 
 >!Important: Latest versions may not work well until it is stable. You may just install a previous version if you face problems with the latest one.
 
@@ -13,14 +13,11 @@ mv mothur code/
 rm Mothur.linux_64.zip
 rm -rf __MACOSX
 ```
-> All downstream analyses will adopt *mothur* pipeline [@Schloss2009] with few modifications.
+> All downstream analyses will adopt **mothur** pipeline [@Schloss2009] with few modifications.
 
-## Assemble paired-end reads
-* Forward and reverse read are joined to form a single sequence
-* At each step a summary file is generated
-* Review the summary before proceeding
-* Optionally set to use four processors
-* The output will be screened to filter out too short and too long sequences. 
+## Merge paired-end reads
+* Each pair (forward and reverse read) is joined to form a single sequence
+* The merged reads are then screened to remove erratic sequences based on specified parameters.
 ```{}
 set.dir(input=data/mothur/, output=data/mothur/)
 set.current(processors=4)
@@ -31,6 +28,10 @@ screen.seqs(fasta=current, group=current, maxambig=0, minlength=140, maxlength=3
 ```
 
 ## Get representative sequences
+* At this step a count_table matrix is created
+* Rows = unique sequences 
+* Columns = names of the groups
+* Cells = number of times each unique sequence is observed in each sample.
 ```{}
 unique.seqs(fasta=current)
 summary.seqs(fasta=current)
@@ -39,7 +40,7 @@ summary.seqs(count=current)
 ```
 
 ## Get reference 16S rRNA alignments
-* Download SILVA database ana put the files into the data/references directory
+* Download SILVA database and put the files in the data/references directory
 * Pull out the bacteria-specific sequences then clean up the directories to remove the extra files
 ```{}
 mkdir data/references 
@@ -56,7 +57,7 @@ rm silv*
 ## Align sequences to the reference alignments
 * Allows to get consensus 16S rRNA gene sequences
 * Requires reference 16S rRNA alignments
-* SILVA [@] is our pick, is highly curated
+* SILVA [@Balvociute2017, @Yilmaz2014] is our pick, is highly curated
 * More cleaning is done after alignment
 ```{}
 set.dir(input=data/mothur/, output=data/mothur/)
@@ -81,7 +82,7 @@ system(rm ./data/mpthur/*.map)
 ```
 
 ## Remove chimeric sequences
-* Uses *vsearch* [@Rognes2016] which is run from within *mothur*
+* Uses **vsearch** [@Rognes2016] which is run from within **mothur**
 ```{}
 set.dir(input=data/mothur/, output=data/mothur/)
 set.current(processors=4)
