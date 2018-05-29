@@ -7,7 +7,7 @@ To characterize the spectrum of microbes present in market bushmeat using powerf
 
 ## Sample collection, recording and processing
 * Place: Nelson Mandela African Institute of Science and Technology ([NM-AIST](http://www.nm-aist.ac.tz/))
-* **Expected data:** Metadata
+* **Expected data:** Metadata (source of experimental variables).
 
 >Uniform and informative short sample IDentifiers are crucial in the downstream analysis.
 
