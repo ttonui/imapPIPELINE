@@ -1,4 +1,4 @@
-# Experimental variables
+# Profiling metadata
 
 ```{r metadata, message=FALSE, warning=FALSE}
 library(readr)
@@ -17,7 +17,7 @@ species <- bushmeatvars[, c(1,8)]
 ecosystem <- bushmeatvars[, c(1,9)]
 ```
 
-## Status of variables
+## Status of experimental variables
 ```{r checkmissing, comment=NA}
 library(funModeling)
 df_status(bushmeatvars)

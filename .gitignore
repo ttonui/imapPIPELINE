@@ -2,11 +2,13 @@
 .Rhistory
 .RData
 _*
+refer
 _publish.R
 _book
 _bookdown_files
 rsconnect
 *.Rproj
+!imapPIPELINE.Rproj
 .Ruserdata
 **/rsconnect/
 .DS_Store
